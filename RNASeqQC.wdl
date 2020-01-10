@@ -73,8 +73,8 @@ workflow RNASeqQC {
 	    url: "https://broadinstitute.github.io/picard/command-line-overview.html"
 	},
 	{
-	    name: "python/3.6",
-	    url: "https://www.python.org/downloads/release/python-3610/"
+	    name: "production-tools-python/1.0.1",
+	    url: "https://bitbucket.oicr.on.ca/projects/GSI/repos/production-tools-python/"
 	},
 	{
 	    name: "bwa/0.7.17",
@@ -107,7 +107,6 @@ task bamqc {
 	String result = "~{outputDirectory}/~{resultName}"
     }
 }
-
 
 task bamToFastq {
 
