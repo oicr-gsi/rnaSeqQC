@@ -6,42 +6,36 @@ workflow RNASeqQC {
 	String bamPath
 	String bwaRef
 	String collationScript
-	String outputDirectory
 	String picardJarDir
 	String refFlat
     }
     
     call bamqc {
 	input:
-	bamPath = bamPath,
-	outputDirectory = outputDirectory
+	bamPath = bamPath
     }
 
     call bamToFastq {
 	input:
-	bamPath = bamPath,
-	tmpDir = outputDirectory
+	bamPath = bamPath
     }
 
     call bwaMem {
 	input:
 	fastqR1=bamToFastq.fastqR1,
 	fastqR2=bamToFastq.fastqR2,
-	bwaRef=bwaRef,
-	outputDirectory = outputDirectory
+	bwaRef=bwaRef
     }
 
     call countUniqueReads {
 	input:
-	bamPath = bamPath,
-	outputDirectory = outputDirectory
+	bamPath = bamPath
     }
     
     call picard {
 	input:
 	bamPath = bamPath,
 	refFlat = refFlat,
-	outputDirectory = outputDirectory,
 	picardJarDir = picardJarDir
     }
 
@@ -51,8 +45,7 @@ workflow RNASeqQC {
 	bamqc = bamqc.result,
 	contam = bwaMem.result,
 	picard = picard.result,
-	uniqueReads = countUniqueReads.result,
-	outputDirectory = outputDirectory
+	uniqueReads = countUniqueReads.result
     }
 
     output {
@@ -92,7 +85,6 @@ task bamqc {
 
     input {
 	String bamPath
-	String outputDirectory
     }
 
     String resultName = "bamqc.json"
@@ -100,11 +92,11 @@ task bamqc {
     command <<<
 	write_fast_metrics.py \
 	-b ~{bamPath} \
-	-o ~{outputDirectory}/~{resultName} \
+	-o ~{resultName} \
     >>>
 
     output {
-	String result = "~{outputDirectory}/~{resultName}"
+	String result = "~{resultName}"
     }
 }
 
@@ -112,24 +104,22 @@ task bamToFastq {
 
     input {
 	String bamPath
-	String tmpDir
     }
 
-    String tmpName = "all.fastq"
+    String allFastq = "all.fastq"
     String R1 = "R1.fastq"
     String R2 = "R2.fastq"
     
     command <<<
-	samtools bam2fq ~{bamPath} > ~{tmpDir}/~{tmpName} && \
-	cat ~{tmpDir}/~{tmpName} | grep '^@.*/1$' -A 3 --no-group-separator > ~{tmpDir}/~{R1} && \
-	cat ~{tmpDir}/~{tmpName} | grep '^@.*/2$' -A 3 --no-group-separator > ~{tmpDir}/~{R2}
+	samtools bam2fq ~{bamPath} > ~{allFastq} && \
+	cat ~{allFastq} | grep '^@.*/1$' -A 3 --no-group-separator > ~{R1} && \
+	cat ~{allFastq} | grep '^@.*/2$' -A 3 --no-group-separator > ~{R2}
     >>>
 
     output {
-	String fastqR1 = "~{tmpDir}/~{R1}"
-	String fastqR2 = "~{tmpDir}/~{R2}"
+	String fastqR1 = "~{R1}"
+	String fastqR2 = "~{R2}"
     }
-	
 }
 
 task bwaMem {
@@ -138,7 +128,6 @@ task bwaMem {
 	String fastqR1
 	String fastqR2
 	String bwaRef
-	String outputDirectory
     }
 
     String resultName = "contamination_summary.txt"
@@ -153,11 +142,11 @@ task bwaMem {
 	| \
 	samtools view -S -b - \
 	| \
-	samtools flagstat - > ~{outputDirectory}/~{resultName}
+	samtools flagstat - > ~{resultName}
     >>>
 
     output {
-	String result = " ~{outputDirectory}/~{resultName}"
+	String result = "~{resultName}"
     }
 }
 
@@ -169,7 +158,6 @@ task collate {
 	String contam
 	String picard
 	String uniqueReads
-	String outputDirectory
     }
 
     String resultName = "RNASeqQC.json"
@@ -180,11 +168,11 @@ task collate {
 	--contam ~{contam} \
 	--picard ~{picard} \
 	--unique-reads ~{uniqueReads} \
-	--out ~{outputDirectory}/~{resultName}
+	--out ~{resultName}
     >>>
     
     output {
-	File collatedJSON="~{outputDirectory}/~{resultName}"
+	File collatedJSON="~{resultName}"
     }
 }
 
@@ -192,7 +180,6 @@ task countUniqueReads {
 
     input {
 	String bamPath
-	String outputDirectory
     }
 
     String resultName = "unique_reads.txt"
@@ -200,11 +187,11 @@ task countUniqueReads {
     command <<<
 	samtools view -F 256 ~{bamPath} \
 	| wc -l \
-	> ~{outputDirectory}/~{resultName}
+	> ~{resultName}
     >>>
     
     output {
-	String result = "~{outputDirectory}/~{resultName}"
+	String result = "~{resultName}"
     }
 }
 
@@ -213,7 +200,6 @@ task picard {
     input {
 	String bamPath
 	String picardJarDir
-	String outputDirectory
 	String refFlat
 	Int picardMem=6000
 	String strandSpecificity="NONE"
@@ -225,13 +211,13 @@ task picard {
 	java -Xmx~{picardMem}M \
 	-jar ~{picardJarDir}picard.jar CollectRnaSeqMetrics \
 	I=~{bamPath} \
-	O=~{outputDirectory}/CollectRNASeqMetrics.txt \
+	O=~{resultName} \
 	STRAND_SPECIFICITY=~{strandSpecificity} \
 	REF_FLAT=~{refFlat}
     >>>
 
     output {
-	String result = "~{outputDirectory}/~{resultName}"
+	String result = "~{resultName}"
     }
 }
 
