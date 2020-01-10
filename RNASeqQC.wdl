@@ -3,21 +3,21 @@ version 1.0
 workflow RNASeqQC {
 
     input {
-	String bamPath
-	String bwaRef
-	String collationScript
+	File bamFile
+	File bwaRef
+	File collationScript
 	String picardJarDir
-	String refFlat
+	File refFlat
     }
     
     call bamqc {
 	input:
-	bamPath = bamPath
+	bamFile = bamFile
     }
 
     call bamToFastq {
 	input:
-	bamPath = bamPath
+	bamFile = bamFile
     }
 
     call bwaMem {
@@ -29,12 +29,12 @@ workflow RNASeqQC {
 
     call countUniqueReads {
 	input:
-	bamPath = bamPath
+	bamFile = bamFile
     }
     
     call picard {
 	input:
-	bamPath = bamPath,
+	bamFile = bamFile,
 	refFlat = refFlat,
 	picardJarDir = picardJarDir
     }
@@ -84,53 +84,53 @@ workflow RNASeqQC {
 task bamqc {
 
     input {
-	String bamPath
+	File bamFile
     }
 
-    String resultName = "bamqc.json"
+    File resultFile = "bamqc.json"
     
     command <<<
 	write_fast_metrics.py \
-	-b ~{bamPath} \
-	-o ~{resultName} \
+	-b ~{bamFile} \
+	-o ~{resultFile} \
     >>>
 
     output {
-	String result = "~{resultName}"
+	File result = resultFile
     }
 }
 
 task bamToFastq {
 
     input {
-	String bamPath
+	File bamFile
     }
 
-    String allFastq = "all.fastq"
-    String R1 = "R1.fastq"
-    String R2 = "R2.fastq"
+    File allFastq = "all.fastq"
+    File R1 = "R1.fastq"
+    File R2 = "R2.fastq"
     
     command <<<
-	samtools bam2fq ~{bamPath} > ~{allFastq} && \
+	samtools bam2fq ~{bamFile} > ~{allFastq} && \
 	cat ~{allFastq} | grep '^@.*/1$' -A 3 --no-group-separator > ~{R1} && \
 	cat ~{allFastq} | grep '^@.*/2$' -A 3 --no-group-separator > ~{R2}
     >>>
 
     output {
-	String fastqR1 = "~{R1}"
-	String fastqR2 = "~{R2}"
+	File fastqR1 = "~{R1}"
+	File fastqR2 = "~{R2}"
     }
 }
 
 task bwaMem {
 
     input {
-	String fastqR1
-	String fastqR2
-	String bwaRef
+	File fastqR1
+	File fastqR2
+	File bwaRef
     }
 
-    String resultName = "contamination_summary.txt"
+    File resultFile = "contamination_summary.txt"
 
     command <<<
 	bwa mem \
@@ -142,25 +142,25 @@ task bwaMem {
 	| \
 	samtools view -S -b - \
 	| \
-	samtools flagstat - > ~{resultName}
+	samtools flagstat - > ~{resultFile}
     >>>
 
     output {
-	String result = "~{resultName}"
+	File result = resultFile
     }
 }
 
 task collate {
 
     input {
-	String collationScript
-	String bamqc
-	String contam
-	String picard
-	String uniqueReads
+	File collationScript
+	File bamqc
+	File contam
+	File picard
+	File uniqueReads
     }
 
-    String resultName = "RNASeqQC.json"
+    File resultFile = "RNASeqQC.json"
     
     command <<<
 	~{collationScript} \
@@ -168,56 +168,56 @@ task collate {
 	--contam ~{contam} \
 	--picard ~{picard} \
 	--unique-reads ~{uniqueReads} \
-	--out ~{resultName}
+	--out ~{resultFile}
     >>>
     
     output {
-	File collatedJSON="~{resultName}"
+	File collatedJSON=resultFile
     }
 }
 
 task countUniqueReads {
 
     input {
-	String bamPath
+	File bamFile
     }
 
-    String resultName = "unique_reads.txt"
+    File resultFile = "unique_reads.txt"
 
     command <<<
-	samtools view -F 256 ~{bamPath} \
+	samtools view -F 256 ~{bamFile} \
 	| wc -l \
-	> ~{resultName}
+	> ~{resultFile}
     >>>
     
     output {
-	String result = "~{resultName}"
+	File result = resultFile
     }
 }
 
 task picard {
 
     input {
-	String bamPath
+	File bamFile
 	String picardJarDir
-	String refFlat
+	File refFlat
 	Int picardMem=6000
 	String strandSpecificity="NONE"
     }
 
-    String resultName = "CollectRNASeqMetrics.txt"
+    File resultFile = "CollectRNASeqMetrics.txt"
     
     command <<<
 	java -Xmx~{picardMem}M \
 	-jar ~{picardJarDir}picard.jar CollectRnaSeqMetrics \
-	I=~{bamPath} \
-	O=~{resultName} \
+	I=~{bamFile} \
+	O=~{resultFile} \
 	STRAND_SPECIFICITY=~{strandSpecificity} \
 	REF_FLAT=~{refFlat}
     >>>
 
     output {
-	String result = "~{resultName}"
+	File result = resultFile
     }
 }
 

@@ -1,0 +1,9 @@
+{
+    "RNASeqQC.outputDirectory": "/home/iain/tmp/rnaseqqc_wdl_mock/small",
+    "RNASeqQC.bamPath": "/home/iain/oicr/git/rnaseqqc_mock_workflow/input/test_tiny.bam",
+    "RNASeqQC.bwaRef": "/home/iain/oicr/git/rnaseqqc_mock_workflow/refs/bwa/human_all_rRNA.fasta",
+    "RNASeqQC.refFlat": "/home/iain/oicr/git/rnaseqqc_mock_workflow/refs/refFlat.txt",
+    "RNASeqQC.picardJarDir": "/home/iain/installed/picard/2.21.6/",
+    "RNASeqQC.collationScript": "/home/iain/oicr/git/production-tools-python/bin/rnaseqqc-collate"
+}
+
