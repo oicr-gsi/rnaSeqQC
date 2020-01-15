@@ -51,7 +51,34 @@ workflow RNASeqQC {
     output {
 	File result = collate.collatedResults
     }
-    
+
+    meta {
+	author: "Iain Bancarz"
+	email: "ibancarz@oicr.on.ca"
+	description: "QC metrics for RNASeq data"
+	dependencies: [
+	{
+	    name: "samtools/1.9",
+	    url: "https://github.com/samtools/samtools"
+	},
+	{
+	    name: "picard/2.21.2",
+	    url: "https://broadinstitute.github.io/picard/command-line-overview.html"
+	},
+	{
+	    name: "production-tools-python/1.0.1",
+	    url: "https://bitbucket.oicr.on.ca/projects/GSI/repos/production-tools-python/"
+	},
+	{
+	    name: "bwa/0.7.17",
+	    url: "https://github.com/lh3/bwa/releases/download/v0.7.17/bwa-0.7.17.tar.bz2"
+	},
+	{
+	    name: "bam-qc-metrics/0.2.3",
+	    url: "https://github.com/oicr-gsi/bam-qc-metrics.git"
+	},
+	]
+    }
 }
 
 
