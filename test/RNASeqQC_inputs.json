@@ -1,9 +1,0 @@
-{
-    "RNASeqQC.outputDirectory": "/home/ibancarz/tmp/rnaseqqc_wdl_mock/test",
-    "RNASeqQC.bamPath": "/home/ibancarz/git/rnaseqqc_mock_workflow/input/test.bam",
-    "RNASeqQC.bwaRef": "/home/ibancarz/git/rnaseqqc_mock_workflow/refs/bwa/human_all_rRNA.fasta",
-    "RNASeqQC.refFlat": "/home/ibancarz/git/rnaseqqc_mock_workflow/refs/refFlat.txt",
-    "RNASeqQC.picardJarDir": "/home/ibancarz/apps/picard/2.21.6/",
-    "RNASeqQC.collationScript": "/home/ibancarz/git/production-tools-python/bin/rnaseqqc-collate"
-}
-

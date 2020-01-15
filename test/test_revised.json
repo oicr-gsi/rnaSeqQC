@@ -1,8 +1,0 @@
-{
-  "RNASeqQC.collationScript": "/home/ibancarz/git/production-tools-python/bin/rnaseqqc-collate",
-  "RNASeqQC.bamPath": "/home/ibancarz/data/RNASeqQC/wdl_test/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.bam",
-  "RNASeqQC.picardJarDir": "/home/ibancarz/apps/picard/2.21.6/",
-  "RNASeqQC.refFlat": "/home/ibancarz/git/rnaseqqc_mock_workflow/refs/refFlat.txt",
-  "RNASeqQC.bwaRef": "/home/ibancarz/git/rnaseqqc_mock_workflow/refs/bwa/human_all_rRNA.fasta"
-}
-
