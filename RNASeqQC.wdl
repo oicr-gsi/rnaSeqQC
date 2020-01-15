@@ -3,11 +3,11 @@ version 1.0
 workflow RNASeqQC {
 
     input {
-	String bamPath
-	String bwaRef
-	String collationScript
+	File bamPath
+	File bwaRef
+	File collationScript
 	String picardJarDir
-	String refFlat
+	File refFlat
     }
     
     call bamqc {
@@ -49,7 +49,7 @@ workflow RNASeqQC {
     }
 
     output {
-	String resultsJSON = collate.collatedJSON
+	File resultsJSON = collate.collatedJSON
     }
 
     meta {
@@ -84,10 +84,10 @@ workflow RNASeqQC {
 task bamqc {
 
     input {
-	String bamPath
+	File bamPath
     }
 
-    String resultName = "bamqc.json"
+    File resultName = "bamqc.json"
     
     command <<<
 	write_fast_metrics.py \
@@ -96,19 +96,19 @@ task bamqc {
     >>>
 
     output {
-	String result = "~{resultName}"
+	File result = "~{resultName}"
     }
 }
 
 task bamToFastq {
 
     input {
-	String bamPath
+	File bamPath
     }
 
-    String allFastq = "all.fastq"
-    String R1 = "R1.fastq"
-    String R2 = "R2.fastq"
+    File allFastq = "all.fastq"
+    File R1 = "R1.fastq"
+    File R2 = "R2.fastq"
     
     command <<<
 	samtools bam2fq ~{bamPath} > ~{allFastq} && \
@@ -117,20 +117,20 @@ task bamToFastq {
     >>>
 
     output {
-	String fastqR1 = "~{R1}"
-	String fastqR2 = "~{R2}"
+	File fastqR1 = "~{R1}"
+	File fastqR2 = "~{R2}"
     }
 }
 
 task bwaMem {
 
     input {
-	String fastqR1
-	String fastqR2
-	String bwaRef
+	File fastqR1
+	File fastqR2
+	File bwaRef
     }
 
-    String resultName = "contamination_summary.txt"
+    File resultName = "contamination_summary.txt"
 
     command <<<
 	bwa mem \
@@ -146,21 +146,21 @@ task bwaMem {
     >>>
 
     output {
-	String result = "~{resultName}"
+	File result = "~{resultName}"
     }
 }
 
 task collate {
 
     input {
-	String collationScript
-	String bamqc
-	String contam
-	String picard
-	String uniqueReads
+	File collationScript
+	File bamqc
+	File contam
+	File picard
+	File uniqueReads
     }
 
-    String resultName = "RNASeqQC.json"
+    File resultName = "RNASeqQC.json"
     
     command <<<
 	~{collationScript} \
@@ -179,10 +179,10 @@ task collate {
 task countUniqueReads {
 
     input {
-	String bamPath
+	File bamPath
     }
 
-    String resultName = "unique_reads.txt"
+    File resultName = "unique_reads.txt"
 
     command <<<
 	samtools view -F 256 ~{bamPath} \
@@ -191,21 +191,21 @@ task countUniqueReads {
     >>>
     
     output {
-	String result = "~{resultName}"
+	File result = "~{resultName}"
     }
 }
 
 task picard {
 
     input {
-	String bamPath
+	File bamPath
 	String picardJarDir
-	String refFlat
+	File refFlat
 	Int picardMem=6000
-	String strandSpecificity="NONE"
+	File strandSpecificity="NONE"
     }
 
-    String resultName = "CollectRNASeqMetrics.txt"
+    File resultName = "CollectRNASeqMetrics.txt"
     
     command <<<
 	java -Xmx~{picardMem}M \
@@ -217,7 +217,7 @@ task picard {
     >>>
 
     output {
-	String result = "~{resultName}"
+	File result = "~{resultName}"
     }
 }
 
