@@ -88,6 +88,10 @@ task bamqc {
 	File bamFile
     }
 
+    parameter_meta {
+	bamFile: "Input BAM file of aligned RNASeqQC data"
+    }
+
     String resultName = "bamqc.json"
     
     command <<<
@@ -105,6 +109,10 @@ task bamToFastq {
 
     input {
 	File bamFile
+    }
+
+    parameter_meta {
+	bamFile: "Input BAM file of aligned RNASeqQC data"
     }
 
     String allFastq = "all.fastq"
@@ -129,6 +137,12 @@ task bwaMem {
 	File fastqR1
 	File fastqR2
 	File bwaRef
+    }
+
+    parameter_meta {
+	fastqR1: "FASTQ file for read 1"
+	fastqR2: "FASTQ file for read 2"
+	bwaRef: "Ribosomal reference file for alignment by BWA"
     }
 
     String resultName = "contamination_summary.txt"
@@ -161,6 +175,14 @@ task collate {
 	File uniqueReads
     }
 
+    parameter_meta {
+	collationScript: "Python script to collate intermediate results"
+	bamqc: "JSON output from bamqc task"
+	contam: "Text output from ribosomal contamination check by bwaMem task"
+	picard: "Text output from picard task"
+	uniqueReads: "Text output from uniqueReads task"
+    }
+
     String resultName = "RNASeqQC.json"
     
     command <<<
@@ -181,6 +203,10 @@ task countUniqueReads {
 
     input {
 	File bamFile
+    }
+
+    parameter_meta {
+	bamFile: "Input BAM file of aligned RNASeqQC data"
     }
 
     String resultName = "unique_reads.txt"
@@ -204,6 +230,14 @@ task picard {
 	File refFlat
 	Int picardMem=6000
 	String strandSpecificity="NONE"
+    }
+
+    parameter_meta {
+	bamFile: "Input BAM file of aligned RNASeqQC data"
+	picardJarDir: "Path of directory containing the Picard JAR"
+	refFlat: "Flat reference file required by Picard"
+	picardMem: "Memory to run picard JAR, in MB"
+	strandSpecificity: "String to denote strand specificity for Picard"
     }
 
     String resultName = "CollectRNASeqMetrics.txt"
