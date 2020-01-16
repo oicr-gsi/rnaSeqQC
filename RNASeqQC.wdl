@@ -5,7 +5,6 @@ workflow RNASeqQC {
     input {
 	File bamFile
 	File bwaRef
-	File collationScript
 	File refFlat
 	String picardJarDir
 	String outputFileNamePrefix = "RNASeqQC"
@@ -47,7 +46,6 @@ workflow RNASeqQC {
 
     call collate {
 	input:
-	collationScript = collationScript,
 	bamqc = bamqc.result,
 	contam = bwaMem.result,
 	picard = picard.result,
@@ -95,12 +93,20 @@ task bamqc {
 	File bamFile
 	String outputFileNamePrefix
 	String bamqcSuffix = "bamqc.json"
+	String modules = "bam-qc-metrics/0.2.3"
+	Int jobMemory = 16
+	Int threads = 4
+	Int timeout = 4
     }
 
     parameter_meta {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
 	outputFileNamePrefix: "Prefix for output file"
 	bamqcSuffix: "Suffix for output file"
+	modules: "required environment modules"
+	jobMemory: "Memory allocated for this job"
+	threads: "Requested CPU threads"
+	timeout: "hours before task timeout"
     }
 
     String resultName = "~{outputFileNamePrefix}.~{bamqcSuffix}"
@@ -110,6 +116,13 @@ task bamqc {
 	-b ~{bamFile} \
 	-o ~{resultName} \
     >>>
+
+    runtime {
+	modules: "~{modules}"
+	memory:  "~{jobMemory} GB"
+	cpu:     "~{threads}"
+	timeout: "~{timeout}"
+    }
 
     output {
 	File result = "~{resultName}"
@@ -130,6 +143,10 @@ task bamToFastq {
 	String suffixAll = "all.fastq"
 	String suffixR1 = "R1.fastq"
 	String suffixR2 = "R2.fastq"
+	String modules = "samtools/1.9"
+	Int jobMemory = 16
+	Int threads = 4
+	Int timeout = 4
     }
 
     parameter_meta {
@@ -138,6 +155,10 @@ task bamToFastq {
 	suffixAll: "Suffix for FASTQ file of all reads"
 	suffixR1: "Suffix for FASTQ file of read 1"
 	suffixR2: "Suffix for FASTQ file of read 2"
+	modules: "required environment modules"
+	jobMemory: "Memory allocated for this job"
+	threads: "Requested CPU threads"
+	timeout: "hours before task timeout"
     }
 
     String allFastq = "~{outputFileNamePrefix}.~{suffixAll}"
@@ -149,6 +170,13 @@ task bamToFastq {
 	cat ~{allFastq} | grep '^@.*/1$' -A 3 --no-group-separator > ~{R1} && \
 	cat ~{allFastq} | grep '^@.*/2$' -A 3 --no-group-separator > ~{R2}
     >>>
+
+    runtime {
+	modules: "~{modules}"
+	memory:  "~{jobMemory} GB"
+	cpu:     "~{threads}"
+	timeout: "~{timeout}"
+    }
 
     output {
 	File fastqR1 = "~{R1}"
@@ -171,6 +199,10 @@ task bwaMem {
 	File bwaRef
 	String outputFileNamePrefix
 	String contamSuffix = "contaminationBwaFlagstat.txt"
+	String modules = "bwa/0.7.17"
+	Int threads = 4
+	Int jobMemory = 16
+	Int timeout = 4
     }
 
     parameter_meta {
@@ -179,6 +211,10 @@ task bwaMem {
 	bwaRef: "Ribosomal reference file for alignment by BWA"
 	outputFileNamePrefix: "Prefix for output file"
 	contamSuffix: "Suffix for output file"
+	modules: "required environment modules"
+	jobMemory: "Memory allocated for this job"
+	threads: "Requested CPU threads"
+	timeout: "hours before task timeout"
     }
 
     String resultName = "~{outputFileNamePrefix}.~{contamSuffix}"
@@ -200,6 +236,13 @@ task bwaMem {
 	File result = "~{resultName}"
     }
 
+    runtime {
+	modules: "~{modules}"
+	memory:  "~{jobMemory} GB"
+	cpu:     "~{threads}"
+	timeout: "~{timeout}"
+    }
+
     meta {
 	output_meta: {
             result: "Text file with results of running 'samtools flagstat' on BWA output"
@@ -210,26 +253,33 @@ task bwaMem {
 task collate {
 
     input {
-	File collationScript
 	File bamqc
 	File contam
 	File picard
 	File uniqueReads
 	String outputFileNamePrefix
 	String collatedSuffix = "collatedMetrics.json"
+	String modules = "production-tools-python/0"
+	Int jobMemory = 16
+	Int threads = 4
+	Int timeout = 4
     }
 
     parameter_meta {
-	collationScript: "Python script to collate intermediate results"
 	bamqc: "JSON output from bamqc task"
 	contam: "Text output from ribosomal contamination check by bwaMem task"
 	picard: "Text output from picard task"
 	uniqueReads: "Text output from uniqueReads task"
 	outputFileNamePrefix: "Prefix for output file"
 	collatedSuffix: "Suffix for output file"
+	modules: "required environment modules"
+	jobMemory: "Memory allocated for this job"
+	threads: "Requested CPU threads"
+	timeout: "hours before task timeout"
     }
 
     String resultName = "~{outputFileNamePrefix}.~{collatedSuffix}"
+    String collationScript = "rnaseqqc-collate"
     
     command <<<
 	~{collationScript} \
@@ -239,7 +289,14 @@ task collate {
 	--unique-reads ~{uniqueReads} \
 	--out ~{resultName}
     >>>
-    
+
+    runtime {
+	modules: "~{modules}"
+	memory:  "~{jobMemory} GB"
+	cpu:     "~{threads}"
+	timeout: "~{timeout}"
+    }
+
     output {
 	File collatedResults="~{resultName}"
     }
@@ -257,12 +314,20 @@ task countUniqueReads {
 	File bamFile
 	String outputFileNamePrefix
 	String uniqueReadsSuffix = "uniqueReads.txt"
+	String modules = "samtools/1.9"
+	Int jobMemory = 16
+	Int threads = 4
+	Int timeout = 4
     }
 
     parameter_meta {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
 	outputFileNamePrefix: "Prefix for output file"
 	uniqueReadsSuffix: "Suffix for output file"
+	modules: "required environment modules"
+	jobMemory: "Memory allocated for this job"
+	threads: "Requested CPU threads"
+	timeout: "hours before task timeout"
     }
 
     String resultName = "~{outputFileNamePrefix}.~{uniqueReadsSuffix}"
@@ -272,6 +337,13 @@ task countUniqueReads {
 	| wc -l \
 	> ~{resultName}
     >>>
+
+    runtime {
+	modules: "~{modules}"
+	memory:  "~{jobMemory} GB"
+	cpu:     "~{threads}"
+	timeout: "~{timeout}"
+    }
     
     output {
 	File result = "~{resultName}"
@@ -294,6 +366,10 @@ task picard {
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
 	String strandSpecificity="NONE"
+	String modules = "picard/2.21.2"
+	Int jobMemory = 64
+	Int threads = 4
+	Int timeout = 4
     }
 
     parameter_meta {
@@ -304,6 +380,10 @@ task picard {
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
 	strandSpecificity: "String to denote strand specificity for Picard"
+	modules: "required environment modules"
+	jobMemory: "Memory allocated for this job"
+	threads: "Requested CPU threads"
+	timeout: "hours before task timeout"
     }
 
     String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
@@ -316,6 +396,13 @@ task picard {
 	STRAND_SPECIFICITY=~{strandSpecificity} \
 	REF_FLAT=~{refFlat}
     >>>
+
+    runtime {
+	modules: "~{modules}"
+	memory:  "~{jobMemory} GB"
+	cpu:     "~{threads}"
+	timeout: "~{timeout}"
+    }
 
     output {
 	File result = "~{resultName}"
