@@ -8,35 +8,41 @@ workflow RNASeqQC {
 	File collationScript
 	File refFlat
 	String picardJarDir
+	String outputFileNamePrefix = "RNASeqQC"
     }
     
     call bamqc {
 	input:
-	bamFile = bamFile
+	bamFile = bamFile,
+	outputFileNamePrefix = outputFileNamePrefix
     }
 
     call bamToFastq {
 	input:
-	bamFile = bamFile
+	bamFile = bamFile,
+	outputFileNamePrefix = outputFileNamePrefix
     }
 
     call bwaMem {
 	input:
 	fastqR1=bamToFastq.fastqR1,
 	fastqR2=bamToFastq.fastqR2,
-	bwaRef=bwaRef
+	bwaRef=bwaRef,
+	outputFileNamePrefix = outputFileNamePrefix
     }
 
     call countUniqueReads {
 	input:
-	bamFile = bamFile
+	bamFile = bamFile,
+	outputFileNamePrefix = outputFileNamePrefix
     }
     
     call picard {
 	input:
 	bamFile = bamFile,
 	refFlat = refFlat,
-	picardJarDir = picardJarDir
+	picardJarDir = picardJarDir,
+	outputFileNamePrefix = outputFileNamePrefix
     }
 
     call collate {
@@ -45,7 +51,8 @@ workflow RNASeqQC {
 	bamqc = bamqc.result,
 	contam = bwaMem.result,
 	picard = picard.result,
-	uniqueReads = countUniqueReads.result
+	uniqueReads = countUniqueReads.result,
+	outputFileNamePrefix = outputFileNamePrefix
     }
     
     output {
@@ -86,13 +93,17 @@ task bamqc {
 
     input {
 	File bamFile
+	String outputFileNamePrefix
+	String bamqcSuffix = "bamqc.json"
     }
 
     parameter_meta {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
+	outputFileNamePrefix: "Prefix for output file"
+	bamqcSuffix: "Suffix for output file"
     }
 
-    String resultName = "bamqc.json"
+    String resultName = "~{outputFileNamePrefix}.~{bamqcSuffix}"
     
     command <<<
 	write_fast_metrics.py \
@@ -103,21 +114,35 @@ task bamqc {
     output {
 	File result = "~{resultName}"
     }
+
+    meta {
+	output_meta: {
+            result: "JSON file containing BAMQC metrics",
+	}
+    }
 }
 
 task bamToFastq {
 
     input {
 	File bamFile
+	String outputFileNamePrefix
+	String suffixAll = "all.fastq"
+	String suffixR1 = "R1.fastq"
+	String suffixR2 = "R2.fastq"
     }
 
     parameter_meta {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
+	outputFileNamePrefix: "Prefix for output files"
+	suffixAll: "Suffix for FASTQ file of all reads"
+	suffixR1: "Suffix for FASTQ file of read 1"
+	suffixR2: "Suffix for FASTQ file of read 2"
     }
 
-    String allFastq = "all.fastq"
-    String R1 = "R1.fastq"
-    String R2 = "R2.fastq"
+    String allFastq = "~{outputFileNamePrefix}.~{suffixAll}"
+    String R1 = "~{outputFileNamePrefix}.~{suffixR1}"
+    String R2 = "~{outputFileNamePrefix}.~{suffixR2}"
     
     command <<<
 	samtools bam2fq ~{bamFile} > ~{allFastq} && \
@@ -129,6 +154,13 @@ task bamToFastq {
 	File fastqR1 = "~{R1}"
 	File fastqR2 = "~{R2}"
     }
+
+    meta {
+	output_meta: {
+            fastqR1: "FASTQ file for read 1",
+	    fastqR2: "FASTQ file for read 2"
+	}
+    }
 }
 
 task bwaMem {
@@ -137,15 +169,19 @@ task bwaMem {
 	File fastqR1
 	File fastqR2
 	File bwaRef
+	String outputFileNamePrefix
+	String contamSuffix = "contaminationBwaFlagstat.txt"
     }
 
     parameter_meta {
 	fastqR1: "FASTQ file for read 1"
 	fastqR2: "FASTQ file for read 2"
 	bwaRef: "Ribosomal reference file for alignment by BWA"
+	outputFileNamePrefix: "Prefix for output file"
+	contamSuffix: "Suffix for output file"
     }
 
-    String resultName = "contamination_summary.txt"
+    String resultName = "~{outputFileNamePrefix}.~{contamSuffix}"
 
     command <<<
 	bwa mem \
@@ -163,6 +199,12 @@ task bwaMem {
     output {
 	File result = "~{resultName}"
     }
+
+    meta {
+	output_meta: {
+            result: "Text file with results of running 'samtools flagstat' on BWA output"
+	}
+    }
 }
 
 task collate {
@@ -173,6 +215,8 @@ task collate {
 	File contam
 	File picard
 	File uniqueReads
+	String outputFileNamePrefix
+	String collatedSuffix = "collatedMetrics.json"
     }
 
     parameter_meta {
@@ -181,9 +225,11 @@ task collate {
 	contam: "Text output from ribosomal contamination check by bwaMem task"
 	picard: "Text output from picard task"
 	uniqueReads: "Text output from uniqueReads task"
+	outputFileNamePrefix: "Prefix for output file"
+	collatedSuffix: "Suffix for output file"
     }
 
-    String resultName = "RNASeqQC.json"
+    String resultName = "~{outputFileNamePrefix}.~{collatedSuffix}"
     
     command <<<
 	~{collationScript} \
@@ -197,19 +243,29 @@ task collate {
     output {
 	File collatedResults="~{resultName}"
     }
+
+    meta {
+	output_meta: {
+            result: "JSON file of collated RNASeqQC output"
+	}
+    }
 }
 
 task countUniqueReads {
 
     input {
 	File bamFile
+	String outputFileNamePrefix
+	String uniqueReadsSuffix = "uniqueReads.txt"
     }
 
     parameter_meta {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
+	outputFileNamePrefix: "Prefix for output file"
+	uniqueReadsSuffix: "Suffix for output file"
     }
 
-    String resultName = "unique_reads.txt"
+    String resultName = "~{outputFileNamePrefix}.~{uniqueReadsSuffix}"
 
     command <<<
 	samtools view -F 256 ~{bamFile} \
@@ -220,6 +276,12 @@ task countUniqueReads {
     output {
 	File result = "~{resultName}"
     }
+
+    meta {
+	output_meta: {
+            result: "Text file with unique read count"
+	}
+    }
 }
 
 task picard {
@@ -228,7 +290,9 @@ task picard {
 	File bamFile
 	String picardJarDir
 	File refFlat
+	String outputFileNamePrefix
 	Int picardMem=6000
+	String picardSuffix = "picardCollectRNASeqMetrics.txt"
 	String strandSpecificity="NONE"
     }
 
@@ -236,11 +300,13 @@ task picard {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
 	picardJarDir: "Path of directory containing the Picard JAR"
 	refFlat: "Flat reference file required by Picard"
+	outputFileNamePrefix: "Prefix for output file"
 	picardMem: "Memory to run picard JAR, in MB"
+	picardSuffix: "Suffix for output file"
 	strandSpecificity: "String to denote strand specificity for Picard"
     }
 
-    String resultName = "CollectRNASeqMetrics.txt"
+    String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
     
     command <<<
 	java -Xmx~{picardMem}M \
@@ -253,5 +319,11 @@ task picard {
 
     output {
 	File result = "~{resultName}"
+    }
+
+    meta {
+	output_meta: {
+            result: "Text file with Picard output"
+	}
     }
 }
