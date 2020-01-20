@@ -81,7 +81,7 @@ workflow RNASeqQC {
 	{
 	    name: "bam-qc-metrics/0.2.3",
 	    url: "https://github.com/oicr-gsi/bam-qc-metrics.git"
-	},
+	}
 	]
     }
 }
@@ -130,7 +130,7 @@ task bamqc {
 
     meta {
 	output_meta: {
-            result: "JSON file containing BAMQC metrics",
+            result: "JSON file containing BAMQC metrics"
 	}
     }
 }
@@ -303,7 +303,7 @@ task collate {
 
     meta {
 	output_meta: {
-            result: "JSON file of collated RNASeqQC output"
+            collatedResults: "JSON file of collated RNASeqQC output"
 	}
     }
 }
