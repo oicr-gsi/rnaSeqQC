@@ -9,6 +9,14 @@ workflow RNASeqQC {
 	String picardJarDir
 	String outputFileNamePrefix = "RNASeqQC"
     }
+
+    parameter_meta {
+	bamFile: "Input BAM file on which to compute QC metrics"
+	bwaRef: "Ribosomal reference file in FASTA format, for alignment by BWA"
+	refFlat: "Reference flat file required for Picard CollectRNASeqMetrics"
+	picardJarDir: "Directory containing the Picard JAR"
+	outputFileNamePrefix: "Prefix for output files"
+    }
     
     call bamqc {
 	input:

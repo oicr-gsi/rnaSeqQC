@@ -2,6 +2,8 @@
 
 QC metrics for RNASeq data
 
+## Overview
+
 ## Dependencies
 
 * [samtools 1.9](https://github.com/samtools/samtools)
@@ -23,16 +25,16 @@ java -jar cromwell.jar run RNASeqQC.wdl --inputs inputs.json
 #### Required workflow parameters:
 Parameter|Value|Description
 ---|---|---
-`bamFile`|File|
-`bwaRef`|File|
-`refFlat`|File|
-`picardJarDir`|String|
+`bamFile`|File|Input BAM file on which to compute QC metrics
+`bwaRef`|File|Ribosomal reference file in FASTA format, for alignment by BWA
+`refFlat`|File|Reference flat file required for Picard CollectRNASeqMetrics
+`picardJarDir`|String|Directory containing the Picard JAR
 
 
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
-`outputFileNamePrefix`|String|"RNASeqQC"|
+`outputFileNamePrefix`|String|"RNASeqQC"|Prefix for output files
 
 
 #### Optional task parameters:
