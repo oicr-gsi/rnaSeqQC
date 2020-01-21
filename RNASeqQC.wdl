@@ -101,7 +101,7 @@ task bamqc {
 	File bamFile
 	String outputFileNamePrefix
 	String bamqcSuffix = "bamqc.json"
-	String modules = "bam-qc-metrics/0.2.3"
+	String modules = "samtools/1.9, bam-qc-metrics/0.2.3"
 	Int jobMemory = 16
 	Int threads = 4
 	Int timeout = 4
