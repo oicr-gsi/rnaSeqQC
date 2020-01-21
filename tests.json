@@ -11,17 +11,28 @@
            }
          }
   },
-  "tests": [
-    {
-      "id": "RNASeqQC_test_medium",
-      "parameters": {
-          "wdl_inputs": {
-	      "RNASeqQC.bamFile": "/.mounts/labs/gsi/testdata/RNASeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.bam",
-	      "RNASeqQC.picardJarDir": "/.mounts/labs/gsi/modulator/sw/Debian8.11/picard-2.21.2/",
-	      "RNASeqQC.refFlat": "/.mounts/labs/gsi/testdata/RNASeqQC/references/refFlat.txt",
-	      "RNASeqQC.bwaRef": "/.mounts/labs/gsi/testdata/RNASeqQC/references/human_all_rRNA.fasta"
-          }
-      }
-    }
-  ]
+    "tests": [
+	{
+	    "id": "RNASeqQC_test_small",
+	    "parameters": {
+		"wdl_inputs": {
+		    "RNASeqQC.bamFile": "/.mounts/labs/gsi/testdata/RNASeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.tiny.bam",
+		    "RNASeqQC.picardJarDir": "/.mounts/labs/gsi/modulator/sw/Debian8.11/picard-2.21.2/",
+		    "RNASeqQC.refFlat": "/.mounts/labs/gsi/testdata/RNASeqQC/references/refFlat.txt",
+		    "RNASeqQC.bwaRef": "/.mounts/labs/gsi/testdata/RNASeqQC/references/human_all_rRNA.fasta"
+		}
+	    }
+	},
+	{
+	    "id": "RNASeqQC_test_medium",
+	    "parameters": {
+		"wdl_inputs": {
+		    "RNASeqQC.bamFile": "/.mounts/labs/gsi/testdata/RNASeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.bam",
+		    "RNASeqQC.picardJarDir": "/.mounts/labs/gsi/modulator/sw/Debian8.11/picard-2.21.2/",
+		    "RNASeqQC.refFlat": "/.mounts/labs/gsi/testdata/RNASeqQC/references/refFlat.txt",
+		    "RNASeqQC.bwaRef": "/.mounts/labs/gsi/testdata/RNASeqQC/references/human_all_rRNA.fasta"
+		}
+	    }
+	}
+    ]
 }
