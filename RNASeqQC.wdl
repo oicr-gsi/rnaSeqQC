@@ -101,7 +101,7 @@ task bamqc {
 	File bamFile
 	String outputFileNamePrefix
 	String bamqcSuffix = "bamqc.json"
-	String modules = "samtools/1.9, bam-qc-metrics/0.2.3"
+	String modules = "bam-qc-metrics/0.2.3"
 	Int jobMemory = 16
 	Int threads = 4
 	Int timeout = 4
@@ -207,7 +207,7 @@ task bwaMem {
 	File bwaRef
 	String outputFileNamePrefix
 	String contamSuffix = "contaminationBwaFlagstat.txt"
-	String modules = "bwa/0.7.17"
+	String modules = "samtools/1.9 bwa/0.7.17"
 	Int threads = 4
 	Int jobMemory = 16
 	Int timeout = 4
