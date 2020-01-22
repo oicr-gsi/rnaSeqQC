@@ -21,7 +21,7 @@
 		    "RNASeqQC.refFlat": "/.mounts/labs/gsi/testdata/RNASeqQC/references/refFlat.txt",
 		    "RNASeqQC.bwaRef": "/.mounts/labs/gsi/testdata/RNASeqQC/references/human_all_rRNA.fasta",
 		    "RNASeqQC.humanGenomeRef": "/.mounts/labs/resit/modulator/sw/data/hg19-p13/hg19_random.fa",
-		    "RNASeqQC.humanGenomeRef": "/.mounts/labs/resit/modulator/sw/data/hg19-p13/hg19_random.fa.fai"
+		    "RNASeqQC.humanGenomeRefIndex": "/.mounts/labs/resit/modulator/sw/data/hg19-p13/hg19_random.fa.fai"
 		}
 	    }
 	},
@@ -34,7 +34,7 @@
 		    "RNASeqQC.refFlat": "/.mounts/labs/gsi/testdata/RNASeqQC/references/refFlat.txt",
 		    "RNASeqQC.bwaRef": "/.mounts/labs/gsi/testdata/RNASeqQC/references/human_all_rRNA.fasta",
 		    "RNASeqQC.humanGenomeRef": "/.mounts/labs/resit/modulator/sw/data/hg19-p13/hg19_random.fa",
-		    "RNASeqQC.humanGenomeRef": "/.mounts/labs/resit/modulator/sw/data/hg19-p13/hg19_random.fa.fai"
+		    "RNASeqQC.humanGenomeRefIndex": "/.mounts/labs/resit/modulator/sw/data/hg19-p13/hg19_random.fa.fai"
 		}
 	    }
 	}
