@@ -50,6 +50,7 @@ workflow RNASeqQC {
 	input:
 	bamFile = bamFile,
 	refFlat = refFlat,
+	humanGenomeRef = humanGenomeRef,
 	picardJarDir = picardJarDir,
 	outputFileNamePrefix = outputFileNamePrefix
     }
