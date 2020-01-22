@@ -408,6 +408,8 @@ task picard {
     }
 
     String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
+
+    # VALIDATION_STRINGENCY=SILENT prevents BAM parsing errors with the given REFERENCE_SEQUENCE
     
     command <<<
 	java -Xmx~{picardMem}M \
@@ -416,7 +418,8 @@ task picard {
 	O=~{resultName} \
 	STRAND_SPECIFICITY=~{strandSpecificity} \
 	REF_FLAT=~{refFlat} \
-	REFERENCE_SEQUENCE=~{humanGenomeRef}
+	REFERENCE_SEQUENCE=~{humanGenomeRef} \
+	VALIDATION_STRINGENCY=SILENT
     >>>
 
     runtime {
