@@ -6,6 +6,7 @@ workflow RNASeqQC {
 	File bamFile
 	File bwaRef
 	File refFlat
+	File humanGenomeRef
 	String picardJarDir
 	String outputFileNamePrefix = "RNASeqQC"
     }
@@ -13,7 +14,8 @@ workflow RNASeqQC {
     parameter_meta {
 	bamFile: "Input BAM file on which to compute QC metrics"
 	bwaRef: "Ribosomal reference file in FASTA format, for alignment by BWA"
-	refFlat: "Reference flat file required for Picard CollectRNASeqMetrics"
+	refFlat: "Reference flat file for Picard CollectRNASeqMetrics"
+	humanGenomeRef: "Human genome FASTA reference for Picard CollectRNASeqMetrics"
 	picardJarDir: "Directory containing the Picard JAR"
 	outputFileNamePrefix: "Prefix for output files"
     }
@@ -370,6 +372,7 @@ task picard {
 	File bamFile
 	String picardJarDir
 	File refFlat
+	File humanGenomeRef
 	String outputFileNamePrefix
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
@@ -384,6 +387,7 @@ task picard {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
 	picardJarDir: "Path of directory containing the Picard JAR"
 	refFlat: "Flat reference file required by Picard"
+	humanGenomeRef: "Human genome FASTA reference, optional parameter for Picard"
 	outputFileNamePrefix: "Prefix for output file"
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
@@ -402,7 +406,8 @@ task picard {
 	I=~{bamFile} \
 	O=~{resultName} \
 	STRAND_SPECIFICITY=~{strandSpecificity} \
-	REF_FLAT=~{refFlat}
+	REF_FLAT=~{refFlat} \
+	REFERENCE_SEQUENCE=~{humanGenomeRef}
     >>>
 
     runtime {

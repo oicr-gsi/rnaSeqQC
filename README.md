@@ -27,7 +27,8 @@ Parameter|Value|Description
 ---|---|---
 `bamFile`|File|Input BAM file on which to compute QC metrics
 `bwaRef`|File|Ribosomal reference file in FASTA format, for alignment by BWA
-`refFlat`|File|Reference flat file required for Picard CollectRNASeqMetrics
+`refFlat`|File|Reference flat file for Picard CollectRNASeqMetrics
+`humanGenomeRef`|File|Human genome FASTA reference for Picard CollectRNASeqMetrics
 `picardJarDir`|String|Directory containing the Picard JAR
 
 
@@ -53,7 +54,7 @@ Parameter|Value|Default|Description
 `bamToFastq.threads`|Int|4|Requested CPU threads
 `bamToFastq.timeout`|Int|4|hours before task timeout
 `bwaMem.contamSuffix`|String|"contaminationBwaFlagstat.txt"|Suffix for output file
-`bwaMem.modules`|String|"bwa/0.7.17"|required environment modules
+`bwaMem.modules`|String|"samtools/1.9 bwa/0.7.17"|required environment modules
 `bwaMem.threads`|Int|4|Requested CPU threads
 `bwaMem.jobMemory`|Int|16|Memory allocated for this job
 `bwaMem.timeout`|Int|4|hours before task timeout
@@ -62,6 +63,7 @@ Parameter|Value|Default|Description
 `countUniqueReads.jobMemory`|Int|16|Memory allocated for this job
 `countUniqueReads.threads`|Int|4|Requested CPU threads
 `countUniqueReads.timeout`|Int|4|hours before task timeout
+`picard.humanGenomeRef`|File|None|Human genome FASTA reference, optional parameter for Picard
 `picard.picardMem`|Int|6000|Memory to run picard JAR, in MB
 `picard.picardSuffix`|String|"picardCollectRNASeqMetrics.txt"|Suffix for output file
 `picard.strandSpecificity`|String|"NONE"|String to denote strand specificity for Picard
