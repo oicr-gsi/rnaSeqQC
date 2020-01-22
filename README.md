@@ -29,6 +29,7 @@ Parameter|Value|Description
 `bwaRef`|File|Ribosomal reference file in FASTA format, for alignment by BWA
 `refFlat`|File|Reference flat file for Picard CollectRNASeqMetrics
 `humanGenomeRef`|File|Human genome FASTA reference for Picard CollectRNASeqMetrics
+`humanGenomeRefIndex`|File|Human genome FASTA reference index for Picard CollectRNASeqMetrics
 `picardJarDir`|String|Directory containing the Picard JAR
 
 
@@ -63,7 +64,6 @@ Parameter|Value|Default|Description
 `countUniqueReads.jobMemory`|Int|16|Memory allocated for this job
 `countUniqueReads.threads`|Int|4|Requested CPU threads
 `countUniqueReads.timeout`|Int|4|hours before task timeout
-`picard.humanGenomeRef`|File|None|Human genome FASTA reference, optional parameter for Picard
 `picard.picardMem`|Int|6000|Memory to run picard JAR, in MB
 `picard.picardSuffix`|String|"picardCollectRNASeqMetrics.txt"|Suffix for output file
 `picard.strandSpecificity`|String|"NONE"|String to denote strand specificity for Picard
