@@ -6,6 +6,8 @@ workflow RNASeqQC {
 	File bamFile
 	File bwaRef
 	File refFlat
+	File humanGenomeRef
+	File humanGenomeRefIndex
 	String picardJarDir
 	String outputFileNamePrefix = "RNASeqQC"
     }
@@ -13,7 +15,9 @@ workflow RNASeqQC {
     parameter_meta {
 	bamFile: "Input BAM file on which to compute QC metrics"
 	bwaRef: "Ribosomal reference file in FASTA format, for alignment by BWA"
-	refFlat: "Reference flat file required for Picard CollectRNASeqMetrics"
+	refFlat: "Reference flat file for Picard CollectRNASeqMetrics"
+	humanGenomeRef: "Human genome FASTA reference for Picard CollectRNASeqMetrics"
+	humanGenomeRefIndex: "Human genome FASTA reference index for Picard CollectRNASeqMetrics"
 	picardJarDir: "Directory containing the Picard JAR"
 	outputFileNamePrefix: "Prefix for output files"
     }
@@ -48,6 +52,8 @@ workflow RNASeqQC {
 	input:
 	bamFile = bamFile,
 	refFlat = refFlat,
+	humanGenomeRef = humanGenomeRef,
+	humanGenomeRefIndex = humanGenomeRefIndex,
 	picardJarDir = picardJarDir,
 	outputFileNamePrefix = outputFileNamePrefix
     }
@@ -370,6 +376,8 @@ task picard {
 	File bamFile
 	String picardJarDir
 	File refFlat
+	File humanGenomeRef
+	File humanGenomeRefIndex
 	String outputFileNamePrefix
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
@@ -380,10 +388,15 @@ task picard {
 	Int timeout = 4
     }
 
+    # humanGenomeRefIndex is not an explicit argument to the Picard command, but must be present
+    # specifying it as File input ensures it is localised for workflow execution
+
     parameter_meta {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
 	picardJarDir: "Path of directory containing the Picard JAR"
 	refFlat: "Flat reference file required by Picard"
+	humanGenomeRef: "Human genome FASTA reference, optional parameter for Picard"
+	humanGenomeRefIndex: "Human genome reference index, required if humanGenomeRef is given"
 	outputFileNamePrefix: "Prefix for output file"
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
@@ -395,6 +408,8 @@ task picard {
     }
 
     String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
+
+    # VALIDATION_STRINGENCY=SILENT prevents BAM parsing errors with the given REFERENCE_SEQUENCE
     
     command <<<
 	java -Xmx~{picardMem}M \
@@ -402,7 +417,9 @@ task picard {
 	I=~{bamFile} \
 	O=~{resultName} \
 	STRAND_SPECIFICITY=~{strandSpecificity} \
-	REF_FLAT=~{refFlat}
+	REF_FLAT=~{refFlat} \
+	REFERENCE_SEQUENCE=~{humanGenomeRef} \
+	VALIDATION_STRINGENCY=SILENT
     >>>
 
     runtime {
