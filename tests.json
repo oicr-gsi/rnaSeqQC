@@ -19,7 +19,7 @@
 		    "RNASeqQC.bamFile": "/.mounts/labs/gsi/testdata/RNASeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.tiny.bam",
 		    "RNASeqQC.picardJarDir": "/.mounts/labs/gsi/modulator/sw/Debian8.11/picard-2.21.2/",
 		    "RNASeqQC.refFlat": "/.mounts/labs/resit/modulator/sw/data/hg38-refflat-p12/refflat.txt",
-		    "RNASeqQC.bwaRef": "/.mounts/labs/gsi/testdata/RNASeqQC/references/human_all_rRNA.fasta",
+		    "RNASeqQC.bwaRef": "/.mounts/labs/gsi/modulator/sw/data/rnaseqqc-ribosome-grch38-1.0.0/human_all_rRNA.fasta",
 		    "RNASeqQC.humanGenomeRef": "/.mounts/labs/resit/modulator/sw/data/hg38-p12/hg38_random.fa",
 		    "RNASeqQC.humanGenomeRefIndex": "/.mounts/labs/resit/modulator/sw/data/hg38-p12/hg38_random.fa.fai"
 		}
@@ -32,7 +32,7 @@
 		    "RNASeqQC.bamFile": "/.mounts/labs/gsi/testdata/RNASeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.bam",
 		    "RNASeqQC.picardJarDir": "/.mounts/labs/gsi/modulator/sw/Debian8.11/picard-2.21.2/",
 		    "RNASeqQC.refFlat": "/.mounts/labs/resit/modulator/sw/data/hg38-refflat-p12/refflat.txt",
-		    "RNASeqQC.bwaRef": "/.mounts/labs/gsi/testdata/RNASeqQC/references/human_all_rRNA.fasta",
+		    "RNASeqQC.bwaRef": "/.mounts/labs/gsi/modulator/sw/data/rnaseqqc-ribosome-grch38-1.0.0/human_all_rRNA.fasta",
 		    "RNASeqQC.humanGenomeRef": "/.mounts/labs/resit/modulator/sw/data/hg38-p12/hg38_random.fa",
 		    "RNASeqQC.humanGenomeRefIndex": "/.mounts/labs/resit/modulator/sw/data/hg38-p12/hg38_random.fa.fai"
 		}
