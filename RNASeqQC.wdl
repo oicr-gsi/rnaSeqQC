@@ -196,7 +196,7 @@ task bwaMem {
 	File fastqR1
 	File fastqR2
 	String outputFileNamePrefix
-	File bwaRef = "${RNASEQQC_RIBOSOME_GRCH38_ROOT}/human_all_rRNA.fasta"
+	File bwaRef = "$RNASEQQC_RIBOSOME_GRCH38_ROOT/human_all_rRNA.fasta"
 	String contamSuffix = "contaminationBwaFlagstat.txt"
 	String modules = "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38/1.0.0"
 	Int threads = 4
@@ -360,9 +360,9 @@ task picard {
     input {
 	File bamFile
 	String outputFileNamePrefix
-	File refFlat = "${HG38_REFFLAT_ROOT}/refflat.txt"
-	File humanGenomeRef = "${HG38_ROOT}/hg38_random.fa"
-	File humanGenomeRefIndex = "${HG38_ROOT}/hg38_random.fa.fai"
+	File refFlat = "$HG38_REFFLAT_ROOT/refflat.txt"
+	File humanGenomeRef = "$HG38_ROOT/hg38_random.fa"
+	File humanGenomeRefIndex = "$HG38_ROOT/hg38_random.fa.fai"
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
 	String strandSpecificity="NONE"
