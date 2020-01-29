@@ -196,7 +196,7 @@ task bwaMem {
 	File fastqR1
 	File fastqR2
 	String outputFileNamePrefix
-	File bwaRef = "$RNASEQQC_RIBOSOME_GRCH38_ROOT/human_all_rRNA.fasta"
+	String rRNARoot = "$RNASEQQC_RIBOSOME_GRCH38_ROOT"
 	String contamSuffix = "contaminationBwaFlagstat.txt"
 	String modules = "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38/1.0.0"
 	Int threads = 4
@@ -207,7 +207,7 @@ task bwaMem {
     parameter_meta {
 	fastqR1: "FASTQ file for read 1"
 	fastqR2: "FASTQ file for read 2"
-	bwaRef: "rRNA FASTA reference"
+	rRNARoot: "Directory with rRNA FASTA reference"
 	outputFileNamePrefix: "Prefix for output file"
 	contamSuffix: "Suffix for output file"
 	modules: "required environment modules"
@@ -217,6 +217,7 @@ task bwaMem {
     }
 
     String resultName = "~{outputFileNamePrefix}.~{contamSuffix}"
+    File bwaRef = "~{rRNARoot}/human_all_rRNA.fasta"
 
     command <<<
 	bwa mem \
@@ -360,9 +361,8 @@ task picard {
     input {
 	File bamFile
 	String outputFileNamePrefix
-	File refFlat = "$HG38_REFFLAT_ROOT/refflat.txt"
-	File humanGenomeRef = "$HG38_ROOT/hg38_random.fa"
-	File humanGenomeRefIndex = "$HG38_ROOT/hg38_random.fa.fai"
+	String refFlatRoot = "$HG38_REFFLAT_ROOT"
+	String humanRefRoot = "$HG38_ROOT"
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
 	String strandSpecificity="NONE"
@@ -372,15 +372,11 @@ task picard {
 	Int timeout = 4
     }
 
-    # humanGenomeRefIndex is not an explicit argument to the Picard command, but must be present
-    # specifying it as File input ensures it is localised for workflow execution
-
     parameter_meta {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
 	outputFileNamePrefix: "Prefix for output file"
-	refFlat: "Flat reference file required by Picard"
-	humanGenomeRef: "Human genome FASTA reference; optional parameter for Picard"
-	humanGenomeRefIndex: "Human genome reference index; required with humanGenomeRef"
+	refFlatRoot: "Directory with flat reference file required by Picard"
+	humanRefRoot: "Directory with human genome .fa reference and .fai index"
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
 	strandSpecificity: "String to denote strand specificity for Picard"
@@ -390,8 +386,12 @@ task picard {
 	timeout: "hours before task timeout"
     }
 
+    # humanGenomeRefIndex is not an explicit argument to the Picard command, but must be present
+    # specifying it as File input ensures it is localised for workflow execution
+    File refFlat = "${refFlatRoot}/refflat.txt"
+    File humanGenomeRef = "~{humanRefRoot}/hg38_random.fa"
+    File humanGenomeRefIndex = "~{humanRefRoot}/hg38_random.fa.fai"
     String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
-
     # VALIDATION_STRINGENCY=SILENT prevents BAM parsing errors with the given REFERENCE_SEQUENCE
     
     command <<<
