@@ -1,4 +1,4 @@
-# RNASeqQC
+# rnaSeqQC
 
 QC metrics for RNASeq data
 
@@ -17,7 +17,7 @@ QC metrics for RNASeq data
 
 ### Cromwell
 ```
-java -jar cromwell.jar run RNASeqQC.wdl --inputs inputs.json
+java -jar cromwell.jar run rnaSeqQC.wdl --inputs inputs.json
 ```
 
 ### Inputs
@@ -36,7 +36,7 @@ Parameter|Value|Description
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
-`outputFileNamePrefix`|String|"RNASeqQC"|Prefix for output files
+`outputFileNamePrefix`|String|"rnaSeqQC"|Prefix for output files
 
 
 #### Optional task parameters:
@@ -82,7 +82,7 @@ Parameter|Value|Default|Description
 
 Output | Type | Description
 ---|---|---
-`result`|File|JSON file of collated RNASeqQC output
+`result`|File|JSON file of collated rnaSeqQC output
 
 
 ## Niassa + Cromwell

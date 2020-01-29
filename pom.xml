@@ -10,13 +10,13 @@
         <relativePath/>
     </parent>
 
-    <artifactId>RNASeqQC</artifactId>
-    <version>0.1.0</version>
+    <artifactId>rnaSeqQC</artifactId>
+    <version>0.2.0</version>
     <packaging>jar</packaging>
 
     <properties>
         <workflow-description>Workflow to compute QC metrics for aligned RNAseq reads.</workflow-description>
-	<wdl-workflow>RNASeqQC.wdl</wdl-workflow>
+	<wdl-workflow>rnaSeqQC.wdl</wdl-workflow>
         <test-definition>tests.json</test-definition>
     </properties>
 
