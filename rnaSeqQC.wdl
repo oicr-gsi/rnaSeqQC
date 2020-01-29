@@ -1,10 +1,10 @@
 version 1.0
 
-workflow RNASeqQC {
+workflow rnaSeqQC {
 
     input {
 	File bamFile
-	String outputFileNamePrefix = "RNASeqQC"
+	String outputFileNamePrefix = "rnaSeqQC"
     }
 
     parameter_meta {
@@ -99,7 +99,7 @@ task bamqc {
     }
 
     parameter_meta {
-	bamFile: "Input BAM file of aligned RNASeqQC data"
+	bamFile: "Input BAM file of aligned rnaSeqQC data"
 	outputFileNamePrefix: "Prefix for output file"
 	bamqcSuffix: "Suffix for output file"
 	modules: "required environment modules"
@@ -149,7 +149,7 @@ task bamToFastq {
     }
 
     parameter_meta {
-	bamFile: "Input BAM file of aligned RNASeqQC data"
+	bamFile: "Input BAM file of aligned rnaSeqQC data"
 	outputFileNamePrefix: "Prefix for output files"
 	suffixAll: "Suffix for FASTQ file of all reads"
 	suffixR1: "Suffix for FASTQ file of read 1"
@@ -302,7 +302,7 @@ task collate {
 
     meta {
 	output_meta: {
-            collatedResults: "JSON file of collated RNASeqQC output"
+            collatedResults: "JSON file of collated rnaSeqQC output"
 	}
     }
 }
@@ -320,7 +320,7 @@ task countUniqueReads {
     }
 
     parameter_meta {
-	bamFile: "Input BAM file of aligned RNASeqQC data"
+	bamFile: "Input BAM file of aligned rnaSeqQC data"
 	outputFileNamePrefix: "Prefix for output file"
 	uniqueReadsSuffix: "Suffix for output file"
 	modules: "required environment modules"
@@ -370,7 +370,7 @@ task picard {
     }
 
     parameter_meta {
-	bamFile: "Input BAM file of aligned RNASeqQC data"
+	bamFile: "Input BAM file of aligned rnaSeqQC data"
 	outputFileNamePrefix: "Prefix for output file"
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
