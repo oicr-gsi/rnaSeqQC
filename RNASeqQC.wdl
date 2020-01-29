@@ -4,21 +4,11 @@ workflow RNASeqQC {
 
     input {
 	File bamFile
-	File bwaRef
-	File refFlat
-	File humanGenomeRef
-	File humanGenomeRefIndex
-	String picardJarDir
 	String outputFileNamePrefix = "RNASeqQC"
     }
 
     parameter_meta {
 	bamFile: "Input BAM file on which to compute QC metrics"
-	bwaRef: "Ribosomal reference file in FASTA format, for alignment by BWA"
-	refFlat: "Reference flat file for Picard CollectRNASeqMetrics"
-	humanGenomeRef: "Human genome FASTA reference for Picard CollectRNASeqMetrics"
-	humanGenomeRefIndex: "Human genome FASTA reference index for Picard CollectRNASeqMetrics"
-	picardJarDir: "Directory containing the Picard JAR"
 	outputFileNamePrefix: "Prefix for output files"
     }
     
@@ -38,7 +28,6 @@ workflow RNASeqQC {
 	input:
 	fastqR1=bamToFastq.fastqR1,
 	fastqR2=bamToFastq.fastqR2,
-	bwaRef=bwaRef,
 	outputFileNamePrefix = outputFileNamePrefix
     }
 
@@ -51,10 +40,6 @@ workflow RNASeqQC {
     call picard {
 	input:
 	bamFile = bamFile,
-	refFlat = refFlat,
-	humanGenomeRef = humanGenomeRef,
-	humanGenomeRefIndex = humanGenomeRefIndex,
-	picardJarDir = picardJarDir,
 	outputFileNamePrefix = outputFileNamePrefix
     }
 
@@ -210,10 +195,9 @@ task bwaMem {
     input {
 	File fastqR1
 	File fastqR2
-	File bwaRef
 	String outputFileNamePrefix
 	String contamSuffix = "contaminationBwaFlagstat.txt"
-	String modules = "samtools/1.9 bwa/0.7.17"
+	String modules = "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38/1.0.0"
 	Int threads = 4
 	Int jobMemory = 16
 	Int timeout = 4
@@ -222,7 +206,6 @@ task bwaMem {
     parameter_meta {
 	fastqR1: "FASTQ file for read 1"
 	fastqR2: "FASTQ file for read 2"
-	bwaRef: "Ribosomal reference file for alignment by BWA"
 	outputFileNamePrefix: "Prefix for output file"
 	contamSuffix: "Suffix for output file"
 	modules: "required environment modules"
@@ -233,11 +216,13 @@ task bwaMem {
 
     String resultName = "~{outputFileNamePrefix}.~{contamSuffix}"
 
+    # $RNASEQQC_RIBOSOME_GRCH38_ROOT env var is set in module rnaseqqc-ribosome-grch38
+
     command <<<
 	bwa mem \
 	-M \
 	-t 8 \
-	~{bwaRef} \
+	$RNASEQQC_RIBOSOME_GRCH38_ROOT/human_all_rRNA.fasta \
 	~{fastqR1} \
 	~{fastqR2} \
 	| \
@@ -374,29 +359,18 @@ task picard {
 
     input {
 	File bamFile
-	String picardJarDir
-	File refFlat
-	File humanGenomeRef
-	File humanGenomeRefIndex
 	String outputFileNamePrefix
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
 	String strandSpecificity="NONE"
-	String modules = "picard/2.21.2"
+	String modules = "picard/2.21.2 hg38-refflat/p12 hg38/p12"
 	Int jobMemory = 64
 	Int threads = 4
 	Int timeout = 4
     }
 
-    # humanGenomeRefIndex is not an explicit argument to the Picard command, but must be present
-    # specifying it as File input ensures it is localised for workflow execution
-
     parameter_meta {
 	bamFile: "Input BAM file of aligned RNASeqQC data"
-	picardJarDir: "Path of directory containing the Picard JAR"
-	refFlat: "Flat reference file required by Picard"
-	humanGenomeRef: "Human genome FASTA reference, optional parameter for Picard"
-	humanGenomeRefIndex: "Human genome reference index, required if humanGenomeRef is given"
 	outputFileNamePrefix: "Prefix for output file"
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
@@ -409,16 +383,21 @@ task picard {
 
     String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
 
+    # Environment variables from modulefiles:
+    # $PICARD_ROOT <- picard
+    # $HG38_ROOT <- hg38
+    # $HG38_REFFLAT_ROOT <- hg38-refflat
+
     # VALIDATION_STRINGENCY=SILENT prevents BAM parsing errors with the given REFERENCE_SEQUENCE
     
     command <<<
 	java -Xmx~{picardMem}M \
-	-jar ~{picardJarDir}picard.jar CollectRnaSeqMetrics \
+	-jar $PICARD_ROOT/picard.jar CollectRnaSeqMetrics \
 	I=~{bamFile} \
 	O=~{resultName} \
 	STRAND_SPECIFICITY=~{strandSpecificity} \
-	REF_FLAT=~{refFlat} \
-	REFERENCE_SEQUENCE=~{humanGenomeRef} \
+	REF_FLAT=$HG38_REFFLAT_ROOT/refflat.txt \
+	REFERENCE_SEQUENCE=$HG38_ROOT/hg38_random.fa \
 	VALIDATION_STRINGENCY=SILENT
     >>>
 
