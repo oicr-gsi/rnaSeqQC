@@ -216,6 +216,8 @@ task bwaMem {
 
     String resultName = "~{outputFileNamePrefix}.~{contamSuffix}"
 
+    # $RNASEQQC_RIBOSOME_GRCH38_ROOT env var is set in module rnaseqqc-ribosome-grch38
+
     command <<<
 	bwa mem \
 	-M \
@@ -380,6 +382,12 @@ task picard {
     }
 
     String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
+
+    # Environment variables from modulefiles:
+    # $PICARD_ROOT <- picard
+    # $HG38_ROOT <- hg38
+    # $HG38_REFFLAT_ROOT <- hg38-refflat
+
     # VALIDATION_STRINGENCY=SILENT prevents BAM parsing errors with the given REFERENCE_SEQUENCE
     
     command <<<
