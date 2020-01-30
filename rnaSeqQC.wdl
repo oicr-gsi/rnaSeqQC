@@ -219,9 +219,12 @@ task bwaMem {
     # $RNASEQQC_RIBOSOME_GRCH38_ROOT env var is set in module rnaseqqc-ribosome-grch38
 
     command <<<
+	set -e
+	set -o pipefail
 	bwa mem \
 	-M \
 	-t 8 \
+	-p \
 	$RNASEQQC_RIBOSOME_GRCH38_ROOT/human_all_rRNA.fasta \
 	~{fastqR1} \
 	~{fastqR2} \
