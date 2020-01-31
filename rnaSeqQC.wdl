@@ -197,7 +197,7 @@ task bwaMem {
 	File fastqR2
 	String outputFileNamePrefix
 	String contamSuffix = "contaminationBwaFlagstat.txt"
-	String modules = "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38/1.0.0"
+	String modules = "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0"
 	Int threads = 4
 	Int jobMemory = 16
 	Int timeout = 4
@@ -215,8 +215,9 @@ task bwaMem {
     }
 
     String resultName = "~{outputFileNamePrefix}.~{contamSuffix}"
+    String rrnaRefName = "human_all_rRNA.fasta"
 
-    # $RNASEQQC_RIBOSOME_GRCH38_ROOT env var is set in module rnaseqqc-ribosome-grch38
+    # $RNASEQQC_RIBOSOME_GRCH38_BWA_INDEX_ROOT in module rnaseqqc-ribosome-grch38-bwa-index
 
     command <<<
 	set -e
@@ -225,7 +226,7 @@ task bwaMem {
 	-M \
 	-t 8 \
 	-p \
-	$RNASEQQC_RIBOSOME_GRCH38_ROOT/human_all_rRNA.fasta \
+	$RNASEQQC_RIBOSOME_GRCH38_BWA_INDEX_ROOT/~{rrnaRefName} \
 	~{fastqR1} \
 	~{fastqR2} \
 	| \
