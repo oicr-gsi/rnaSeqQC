@@ -6,6 +6,12 @@ Unreleased
 
 - GR-980 Initial release of rebuilt RNASeqQC workflow
 
+
+v0.3.1: 2020-01-31
+------------------
+
+- Fixup; increment version in POM
+
 v0.3.0: 2020-01-31
 ------------------
 
