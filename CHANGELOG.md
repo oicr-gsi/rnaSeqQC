@@ -6,6 +6,11 @@ Unreleased
 
 - GR-980 Initial release of rebuilt RNASeqQC workflow
 
+v0.4.4: 2020-02-03
+------------------
+
+- Fixup; correctly set REFFLAT_ROOT
+
 v0.4.3: 2020-02-03
 ------------------
 
