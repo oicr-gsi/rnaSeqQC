@@ -26,17 +26,13 @@ java -jar cromwell.jar run rnaSeqQC.wdl --inputs inputs.json
 Parameter|Value|Description
 ---|---|---
 `bamFile`|File|Input BAM file on which to compute QC metrics
-`bwaRef`|File|Ribosomal reference file in FASTA format, for alignment by BWA
-`refFlat`|File|Reference flat file for Picard CollectRNASeqMetrics
-`humanGenomeRef`|File|Human genome FASTA reference for Picard CollectRNASeqMetrics
-`humanGenomeRefIndex`|File|Human genome FASTA reference index for Picard CollectRNASeqMetrics
-`picardJarDir`|String|Directory containing the Picard JAR
 
 
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
 `outputFileNamePrefix`|String|"rnaSeqQC"|Prefix for output files
+`picardModules`|String|"picard/2.21.2 hg38-refflat/p12 hg38/p12"|Environment modules for Picard
 
 
 #### Optional task parameters:
@@ -55,7 +51,7 @@ Parameter|Value|Default|Description
 `bamToFastq.threads`|Int|4|Requested CPU threads
 `bamToFastq.timeout`|Int|4|hours before task timeout
 `bwaMem.contamSuffix`|String|"contaminationBwaFlagstat.txt"|Suffix for output file
-`bwaMem.modules`|String|"samtools/1.9 bwa/0.7.17"|required environment modules
+`bwaMem.modules`|String|"samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0"|required environment modules
 `bwaMem.threads`|Int|4|Requested CPU threads
 `bwaMem.jobMemory`|Int|16|Memory allocated for this job
 `bwaMem.timeout`|Int|4|hours before task timeout
@@ -67,7 +63,6 @@ Parameter|Value|Default|Description
 `picard.picardMem`|Int|6000|Memory to run picard JAR, in MB
 `picard.picardSuffix`|String|"picardCollectRNASeqMetrics.txt"|Suffix for output file
 `picard.strandSpecificity`|String|"NONE"|String to denote strand specificity for Picard
-`picard.modules`|String|"picard/2.21.2"|required environment modules
 `picard.jobMemory`|Int|64|Memory allocated for this job
 `picard.threads`|Int|4|Requested CPU threads
 `picard.timeout`|Int|4|hours before task timeout
