@@ -5,13 +5,15 @@ workflow rnaSeqQC {
     input {
 	File bamFile
 	String outputFileNamePrefix = "rnaSeqQC"
-	String picardModules = "picard/2.21.2 hg38-refflat/p12 hg38/p12"
+	String refFlatModule = "hg38-refflat/p12"
+	String refSequenceModule = "hg38/p12"
     }
 
     parameter_meta {
 	bamFile: "Input BAM file on which to compute QC metrics"
 	outputFileNamePrefix: "Prefix for output files"
-	picardModules: "Environment modules for Picard"
+	refFlatModule: "Environment module for Picard flatfile reference"
+	refSequenceModule: "Environment module for human genome reference"
     }
     
     call bamqc {
@@ -43,7 +45,8 @@ workflow rnaSeqQC {
 	input:
 	bamFile = bamFile,
 	outputFileNamePrefix = outputFileNamePrefix,
-	picardModules = picardModules
+	refFlatModule = refFlatModule,
+	refSequenceModule = refSequenceModule
     }
 
     call collate {
@@ -367,7 +370,8 @@ task picard {
     input {
 	File bamFile
 	String outputFileNamePrefix
-	String picardModules
+	String refFlatModule
+	String refSequenceModule
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
 	String strandSpecificity="NONE"
@@ -379,7 +383,8 @@ task picard {
     parameter_meta {
 	bamFile: "Input BAM file of aligned rnaSeqQC data"
 	outputFileNamePrefix: "Prefix for output file"
-	picardModules: "required environment modules, including genome references"
+	refFlatModule: "Environment module for Picard flatfile reference"
+	refSequenceModule: "Environment module for human genome reference"
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
 	strandSpecificity: "String to denote strand specificity for Picard"
@@ -389,6 +394,7 @@ task picard {
     }
 
     String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
+    String modules = "picard/2.21.2 ~{refFlatModule} ~{refSequenceModule}"
 
     # Environment variables from modulefiles:
     # $PICARD_ROOT <- picard
@@ -396,20 +402,28 @@ task picard {
     # $HG38_REFFLAT_ROOT <- hg38-refflat
 
     # VALIDATION_STRINGENCY=SILENT prevents BAM parsing errors with the given REFERENCE_SEQUENCE
-    
+
+    # check if HG19_ROOT or HG38_ROOT variable is set by environment module
     command <<<
+	if [[ -v HG19_ROOT ]]; then
+	REF_FASTA=$HG19_ROOT/hg19_random.fa
+	elif [[ -v HG38_ROOT ]]; then
+	REF_FASTA=$HG38_ROOT/hg38_random.fa
+	else echo "Genome reference root not found in rnaSeqQC.picard" 1&>2; exit 1
+	fi
+	$REFFLAT_ROOT=`echo $HG19_REFFLAT_ROOT || $HG38_REFFLAT_ROOT`
 	java -Xmx~{picardMem}M \
 	-jar $PICARD_ROOT/picard.jar CollectRnaSeqMetrics \
 	I=~{bamFile} \
 	O=~{resultName} \
 	STRAND_SPECIFICITY=~{strandSpecificity} \
-	REF_FLAT=$HG38_REFFLAT_ROOT/refflat.txt \
-	REFERENCE_SEQUENCE=$HG38_ROOT/hg38_random.fa \
+	REF_FLAT=$REFFLAT_ROOT/refflat.txt \
+	REFERENCE_SEQUENCE=$REF_FASTA \
 	VALIDATION_STRINGENCY=SILENT
     >>>
 
     runtime {
-	modules: "~{picardModules}"
+	modules: "~{modules}"
 	memory:  "~{jobMemory} GB"
 	cpu:     "~{threads}"
 	timeout: "~{timeout}"

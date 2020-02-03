@@ -32,7 +32,8 @@ Parameter|Value|Description
 Parameter|Value|Default|Description
 ---|---|---|---
 `outputFileNamePrefix`|String|"rnaSeqQC"|Prefix for output files
-`picardModules`|String|"picard/2.21.2 hg38-refflat/p12 hg38/p12"|Environment modules for Picard
+`refFlatModule`|String|"hg38-refflat/p12"|Environment module for Picard flatfile reference
+`refSequenceModule`|String|"hg38/p12"|Environment module for human genome reference
 
 
 #### Optional task parameters:
