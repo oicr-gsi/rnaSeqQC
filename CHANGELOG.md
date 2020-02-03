@@ -6,6 +6,11 @@ Unreleased
 
 - GR-980 Initial release of rebuilt RNASeqQC workflow
 
+v0.4.2: 2020-02-03
+------------------
+
+- Fixup; correct BASH syntax; separate params for each reference module
+
 v0.4.1: 2020-02-03
 ------------------
 
