@@ -6,6 +6,10 @@ Unreleased
 
 - GR-980 Initial release of rebuilt RNASeqQC workflow
 
+v0.4.0: 2020-02-03
+------------------
+
+- GR-1007 Add a picardModules parameter; allows reference to be set by olive
 
 v0.3.1: 2020-01-31
 ------------------

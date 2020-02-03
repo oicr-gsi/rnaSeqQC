@@ -5,11 +5,13 @@ workflow rnaSeqQC {
     input {
 	File bamFile
 	String outputFileNamePrefix = "rnaSeqQC"
+	String picardModules = "picard/2.21.2 hg38-refflat/p12 hg38/p12"
     }
 
     parameter_meta {
 	bamFile: "Input BAM file on which to compute QC metrics"
 	outputFileNamePrefix: "Prefix for output files"
+	picardModules: "Environment modules for Picard"
     }
     
     call bamqc {
@@ -40,7 +42,8 @@ workflow rnaSeqQC {
     call picard {
 	input:
 	bamFile = bamFile,
-	outputFileNamePrefix = outputFileNamePrefix
+	outputFileNamePrefix = outputFileNamePrefix,
+	picardModules = picardModules
     }
 
     call collate {
@@ -364,10 +367,10 @@ task picard {
     input {
 	File bamFile
 	String outputFileNamePrefix
+	String picardModules
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
 	String strandSpecificity="NONE"
-	String modules = "picard/2.21.2 hg38-refflat/p12 hg38/p12"
 	Int jobMemory = 64
 	Int threads = 4
 	Int timeout = 4
@@ -376,10 +379,10 @@ task picard {
     parameter_meta {
 	bamFile: "Input BAM file of aligned rnaSeqQC data"
 	outputFileNamePrefix: "Prefix for output file"
+	picardModules: "required environment modules, including genome references"
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
 	strandSpecificity: "String to denote strand specificity for Picard"
-	modules: "required environment modules"
 	jobMemory: "Memory allocated for this job"
 	threads: "Requested CPU threads"
 	timeout: "hours before task timeout"
@@ -406,7 +409,7 @@ task picard {
     >>>
 
     runtime {
-	modules: "~{modules}"
+	modules: "~{picardModules}"
 	memory:  "~{jobMemory} GB"
 	cpu:     "~{threads}"
 	timeout: "~{timeout}"
