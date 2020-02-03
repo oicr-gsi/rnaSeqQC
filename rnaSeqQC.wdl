@@ -396,15 +396,24 @@ task picard {
     # $HG38_REFFLAT_ROOT <- hg38-refflat
 
     # VALIDATION_STRINGENCY=SILENT prevents BAM parsing errors with the given REFERENCE_SEQUENCE
-    
+
+    # check if HG19_ROOT or HG38_ROOT variable is set by environment module
     command <<<
+	if [[ -v HG19_ROOT ]]
+	then $REF_FASTA=$HG19_ROOT/hg19_random.fa
+	else if [[ -v HG38_ROOT ]]
+	then $REF_FASTA=$HG38_ROOT/hg38_random.fa
+	else exit 1
+
+	$REFFLAT_ROOT=`echo $HG19_REFFLAT_ROOT || $HG38_REFFLAT_ROOT`
+
 	java -Xmx~{picardMem}M \
 	-jar $PICARD_ROOT/picard.jar CollectRnaSeqMetrics \
 	I=~{bamFile} \
 	O=~{resultName} \
 	STRAND_SPECIFICITY=~{strandSpecificity} \
-	REF_FLAT=$HG38_REFFLAT_ROOT/refflat.txt \
-	REFERENCE_SEQUENCE=$HG38_ROOT/hg38_random.fa \
+	REF_FLAT=$REFFLAT_ROOT/refflat.txt \
+	REFERENCE_SEQUENCE=$REF_FASTA \
 	VALIDATION_STRINGENCY=SILENT
     >>>
 
