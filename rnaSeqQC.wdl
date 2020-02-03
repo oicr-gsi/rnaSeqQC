@@ -405,9 +405,7 @@ task picard {
 	$REF_FASTA=$HG38_ROOT/hg38_random.fa
 	else echo "Genome reference root not found in rnaSeqQC.picard"; exit 1
 	fi
-
 	$REFFLAT_ROOT=`echo $HG19_REFFLAT_ROOT || $HG38_REFFLAT_ROOT`
-
 	java -Xmx~{picardMem}M \
 	-jar $PICARD_ROOT/picard.jar CollectRnaSeqMetrics \
 	I=~{bamFile} \
