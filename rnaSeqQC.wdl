@@ -399,11 +399,12 @@ task picard {
 
     # check if HG19_ROOT or HG38_ROOT variable is set by environment module
     command <<<
-	if [[ -v HG19_ROOT ]]
-	then $REF_FASTA=$HG19_ROOT/hg19_random.fa
-	else if [[ -v HG38_ROOT ]]
-	then $REF_FASTA=$HG38_ROOT/hg38_random.fa
-	else exit 1
+	if [[ -v HG19_ROOT ]]; then
+	$REF_FASTA=$HG19_ROOT/hg19_random.fa
+	else if [[ -v HG38_ROOT ]]; then
+	$REF_FASTA=$HG38_ROOT/hg38_random.fa
+	else echo "Genome reference root not found in rnaSeqQC.picard" 2>&1; exit 1
+	fi
 
 	$REFFLAT_ROOT=`echo $HG19_REFFLAT_ROOT || $HG38_REFFLAT_ROOT`
 
