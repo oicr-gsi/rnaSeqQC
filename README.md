@@ -27,13 +27,16 @@ Parameter|Value|Description
 ---|---|---
 `bamFile`|File|Input BAM file on which to compute QC metrics
 
+#### Required task parameters:
+Parameter|Value|Description
+---|---|---
+`picard.refFlat`|String|Path to Picard flatfile reference
+`picard.refFasta`|String|Path to human genome FASTA reference
 
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
 `outputFileNamePrefix`|String|"rnaSeqQC"|Prefix for output files
-`refFlatModule`|String|"hg38-refflat/p12"|Environment module for Picard flatfile reference
-`refSequenceModule`|String|"hg38/p12"|Environment module for human genome reference
 
 
 #### Optional task parameters:
