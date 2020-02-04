@@ -4,16 +4,16 @@ workflow rnaSeqQC {
 
     input {
 	File bamFile
+	String refFlat
+	String refFasta
 	String outputFileNamePrefix = "rnaSeqQC"
-	String refFlatModule = "hg38-refflat/p12"
-	String refSequenceModule = "hg38/p12"
     }
 
     parameter_meta {
 	bamFile: "Input BAM file on which to compute QC metrics"
+	refFlat: "Path to Picard flatfile reference"
+	refFasta: "Path to human genome FASTA reference"
 	outputFileNamePrefix: "Prefix for output files"
-	refFlatModule: "Environment module for Picard flatfile reference"
-	refSequenceModule: "Environment module for human genome reference"
     }
     
     call bamqc {
@@ -45,8 +45,8 @@ workflow rnaSeqQC {
 	input:
 	bamFile = bamFile,
 	outputFileNamePrefix = outputFileNamePrefix,
-	refFlatModule = refFlatModule,
-	refSequenceModule = refSequenceModule
+	refFlat = refFlat,
+	refFasta = refFasta
     }
 
     call collate {
@@ -370,8 +370,8 @@ task picard {
     input {
 	File bamFile
 	String outputFileNamePrefix
-	String refFlatModule
-	String refSequenceModule
+	String refFlat
+	String refFasta
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
 	String strandSpecificity="NONE"
@@ -383,8 +383,8 @@ task picard {
     parameter_meta {
 	bamFile: "Input BAM file of aligned rnaSeqQC data"
 	outputFileNamePrefix: "Prefix for output file"
-	refFlatModule: "Environment module for Picard flatfile reference"
-	refSequenceModule: "Environment module for human genome reference"
+	refFlat: "Path to Picard flatfile reference"
+	refFasta: "Path to human genome FASTA reference"
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
 	strandSpecificity: "String to denote strand specificity for Picard"
@@ -394,7 +394,7 @@ task picard {
     }
 
     String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
-    String modules = "picard/2.21.2 ~{refFlatModule} ~{refSequenceModule}"
+    String modules = "picard/2.21.2"
 
     # Environment variables from modulefiles:
     # $PICARD_ROOT <- picard
@@ -405,25 +405,13 @@ task picard {
 
     # check if HG19_ROOT or HG38_ROOT variable is set by environment module
     command <<<
-	if [[ -v HG19_ROOT ]]; then
-	REF_FASTA=$HG19_ROOT/hg19_random.fa
-	elif [[ -v HG38_ROOT ]]; then
-	REF_FASTA=$HG38_ROOT/hg38_random.fa
-	else echo "Genome reference root not found in rnaSeqQC.picard" 1&>2; exit 1
-	fi
-	if [[ -v HG19_REFFLAT_ROOT ]]; then
-	REFFLAT_ROOT=$HG19_REFFLAT_ROOT
-	elif [[ -v HG38_REFFLAT_ROOT ]]; then
-	REFFLAT_ROOT=$HG38_REFFLAT_ROOT
-	else echo "Flatfile reference root not found in rnaSeqQC.picard" 1&>2; exit 1
-	fi
 	java -Xmx~{picardMem}M \
 	-jar $PICARD_ROOT/picard.jar CollectRnaSeqMetrics \
 	I=~{bamFile} \
 	O=~{resultName} \
 	STRAND_SPECIFICITY=~{strandSpecificity} \
-	REF_FLAT=$REFFLAT_ROOT/refflat.txt \
-	REFERENCE_SEQUENCE=$REF_FASTA \
+	REF_FLAT=~{refFlat} \
+	REFERENCE_SEQUENCE=~{refFasta} \
 	VALIDATION_STRINGENCY=SILENT
     >>>
 
