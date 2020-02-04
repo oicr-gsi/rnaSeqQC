@@ -4,15 +4,11 @@ workflow rnaSeqQC {
 
     input {
 	File bamFile
-	String refFlat
-	String refFasta
 	String outputFileNamePrefix = "rnaSeqQC"
     }
 
     parameter_meta {
 	bamFile: "Input BAM file on which to compute QC metrics"
-	refFlat: "Path to Picard flatfile reference"
-	refFasta: "Path to human genome FASTA reference"
 	outputFileNamePrefix: "Prefix for output files"
     }
     
