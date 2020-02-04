@@ -4,7 +4,12 @@ CHANGELOG
 Unreleased
 ----------
 
-- GR-980 Initial release of rebuilt RNASeqQC workflow
+
+v1.0.0: 2020-02-04
+------------------
+
+- GR-1036 Initial release of rebuilt RNASeqQC workflow 
+
 
 v0.5.0: 2020-02-04
 ------------------
