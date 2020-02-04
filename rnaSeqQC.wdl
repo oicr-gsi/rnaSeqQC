@@ -41,8 +41,6 @@ workflow rnaSeqQC {
 	input:
 	bamFile = bamFile,
 	outputFileNamePrefix = outputFileNamePrefix,
-	refFlat = refFlat,
-	refFasta = refFasta
     }
 
     call collate {
