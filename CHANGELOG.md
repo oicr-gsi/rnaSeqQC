@@ -5,6 +5,11 @@ Unreleased
 ----------
 
 
+v1.0.1: 2020-02-05
+------------------
+
+- Fixup; pass `modules` string as a parameter to the Picard task
+
 v1.0.0: 2020-02-04
 ------------------
 

@@ -18,7 +18,8 @@
 		"wdl_inputs": {
 		    "rnaSeqQC.bamFile": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.tiny.bam",
 		    "rnaSeqQC.picard.refFlat": "/.mounts/labs/gsi/modulator/sw/data/hg38-refflat-p12/refflat.txt",
-		    "rnaSeqQC.picard.refFasta": "/.mounts/labs/resit/modulator/sw/data/hg38-p12/hg38_random.fa"
+		    "rnaSeqQC.picard.refFasta": "/.mounts/labs/resit/modulator/sw/data/hg38-p12/hg38_random.fa",
+		    "rnaSeqQC.picard.modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12"
 		}
 	    }
 	},
@@ -28,7 +29,8 @@
 		"wdl_inputs": {
 		    "rnaSeqQC.bamFile": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.bam",
 		    "rnaSeqQC.picard.refFlat": "/.mounts/labs/gsi/modulator/sw/data/hg38-refflat-p12/refflat.txt",
-		    "rnaSeqQC.picard.refFasta": "/.mounts/labs/resit/modulator/sw/data/hg38-p12/hg38_random.fa"
+		    "rnaSeqQC.picard.refFasta": "/.mounts/labs/resit/modulator/sw/data/hg38-p12/hg38_random.fa",
+		    "rnaSeqQC.picard.modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12"
 		}
 	    }
 	}

@@ -366,6 +366,7 @@ task picard {
 	String outputFileNamePrefix
 	String refFlat
 	String refFasta
+	String modules
 	Int picardMem=6000
 	String picardSuffix = "picardCollectRNASeqMetrics.txt"
 	String strandSpecificity="NONE"
@@ -379,6 +380,7 @@ task picard {
 	outputFileNamePrefix: "Prefix for output file"
 	refFlat: "Path to Picard flatfile reference"
 	refFasta: "Path to human genome FASTA reference"
+	modules: "Required environment modules"
 	picardMem: "Memory to run picard JAR, in MB"
 	picardSuffix: "Suffix for output file"
 	strandSpecificity: "String to denote strand specificity for Picard"
@@ -388,7 +390,6 @@ task picard {
     }
 
     String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
-    String modules = "picard/2.21.2"
 
     # Environment variables from modulefiles:
     # $PICARD_ROOT <- picard
