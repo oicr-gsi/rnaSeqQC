@@ -140,8 +140,8 @@ task bamToFastq {
 	File bamFile
 	String outputFileNamePrefix
 	String suffixAll = "all.fastq"
-	String suffixR1 = "R1.fastq"
-	String suffixR2 = "R2.fastq"
+	String suffixR1 = "R1.fastq.bz2"
+	String suffixR2 = "R2.fastq.bz2"
 	String modules = "samtools/1.9"
 	Int jobMemory = 16
 	Int threads = 4
@@ -163,11 +163,13 @@ task bamToFastq {
     String allFastq = "~{outputFileNamePrefix}.~{suffixAll}"
     String R1 = "~{outputFileNamePrefix}.~{suffixR1}"
     String R2 = "~{outputFileNamePrefix}.~{suffixR2}"
-    
+
+    # stream data through bzip2 to reduce disk usage
     command <<<
-	samtools bam2fq ~{bamFile} > ~{allFastq} && \
-	cat ~{allFastq} | grep '^@.*/1$' -A 3 --no-group-separator > ~{R1} && \
-	cat ~{allFastq} | grep '^@.*/2$' -A 3 --no-group-separator > ~{R2}
+	set -e
+	set -o pipefail
+	samtools bam2fq ~{bamFile} | grep '^@.*/1$' -A 3 --no-group-separator | bzip2 -c > ~{R1}
+	samtools bam2fq ~{bamFile} | grep '^@.*/2$' -A 3 --no-group-separator | bzip2 -c > ~{R2}
     >>>
 
     runtime {
@@ -227,8 +229,8 @@ task bwaMem {
 	-t 8 \
 	-p \
 	$RNASEQQC_RIBOSOME_GRCH38_BWA_INDEX_ROOT/~{rrnaRefName} \
-	~{fastqR1} \
-	~{fastqR2} \
+	<(bunzip2 -c ~{fastqR1}) \
+	<(bunzip2 -c ~{fastqR2}) \
 	| \
 	samtools view -S -b - \
 	| \

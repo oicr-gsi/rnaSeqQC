@@ -4,6 +4,10 @@ CHANGELOG
 Unreleased
 ----------
 
+v1.0.2: 2020-02-06
+------------------
+
+- GP-2270 Reduce disk usage for bamToFastq task
 
 v1.0.1: 2020-02-05
 ------------------
