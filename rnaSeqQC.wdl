@@ -18,16 +18,9 @@ workflow rnaSeqQC {
 	outputFileNamePrefix = outputFileNamePrefix
     }
 
-    call bamToFastq {
-	input:
-	bamFile = bamFile,
-	outputFileNamePrefix = outputFileNamePrefix
-    }
-
     call bwaMem {
 	input:
-	fastqR1=bamToFastq.fastqR1,
-	fastqR2=bamToFastq.fastqR2,
+	bamFile = bamFile,
 	outputFileNamePrefix = outputFileNamePrefix
     }
 
@@ -134,83 +127,25 @@ task bamqc {
     }
 }
 
-task bamToFastq {
+task bwaMem {
 
     input {
 	File bamFile
 	String outputFileNamePrefix
-	String suffixAll = "all.fastq"
-	String suffixR1 = "R1.fastq.bz2"
-	String suffixR2 = "R2.fastq.bz2"
-	String modules = "samtools/1.9"
-	Int jobMemory = 16
+	String refFasta
+	String modules
+	String contamSuffix = "contaminationBwaFlagstat.txt"
 	Int threads = 4
+	Int jobMemory = 16
 	Int timeout = 4
     }
 
     parameter_meta {
 	bamFile: "Input BAM file of aligned rnaSeqQC data"
-	outputFileNamePrefix: "Prefix for output files"
-	suffixAll: "Suffix for FASTQ file of all reads"
-	suffixR1: "Suffix for FASTQ file of read 1"
-	suffixR2: "Suffix for FASTQ file of read 2"
-	modules: "required environment modules"
-	jobMemory: "Memory allocated for this job"
-	threads: "Requested CPU threads"
-	timeout: "hours before task timeout"
-    }
-
-    String allFastq = "~{outputFileNamePrefix}.~{suffixAll}"
-    String R1 = "~{outputFileNamePrefix}.~{suffixR1}"
-    String R2 = "~{outputFileNamePrefix}.~{suffixR2}"
-
-    # stream data through bzip2 to reduce disk usage
-    command <<<
-	set -e
-	set -o pipefail
-	samtools bam2fq ~{bamFile} | grep '^@.*/1$' -A 3 --no-group-separator | bzip2 -c > ~{R1}
-	samtools bam2fq ~{bamFile} | grep '^@.*/2$' -A 3 --no-group-separator | bzip2 -c > ~{R2}
-    >>>
-
-    runtime {
-	modules: "~{modules}"
-	memory:  "~{jobMemory} GB"
-	cpu:     "~{threads}"
-	timeout: "~{timeout}"
-    }
-
-    output {
-	File fastqR1 = "~{R1}"
-	File fastqR2 = "~{R2}"
-    }
-
-    meta {
-	output_meta: {
-            fastqR1: "FASTQ file for read 1",
-	    fastqR2: "FASTQ file for read 2"
-	}
-    }
-}
-
-task bwaMem {
-
-    input {
-	File fastqR1
-	File fastqR2
-	String outputFileNamePrefix
-	String contamSuffix = "contaminationBwaFlagstat.txt"
-	String modules = "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0"
-	Int threads = 4
-	Int jobMemory = 16
-	Int timeout = 4
-    }
-
-    parameter_meta {
-	fastqR1: "FASTQ file for read 1"
-	fastqR2: "FASTQ file for read 2"
 	outputFileNamePrefix: "Prefix for output file"
-	contamSuffix: "Suffix for output file"
+	refFasta: "Path to human genome FASTA reference"
 	modules: "required environment modules"
+	contamSuffix: "Suffix for output file"
 	jobMemory: "Memory allocated for this job"
 	threads: "Requested CPU threads"
 	timeout: "hours before task timeout"
@@ -224,15 +159,15 @@ task bwaMem {
     command <<<
 	set -e
 	set -o pipefail
-	bwa mem \
+	samtools collate \
+	-O \
+	--reference ~{refFasta} \
+	~{bamFile} \
+	| samtools fastq - \
+	| bwa mem \
 	-M \
-	-t 8 \
-	-p \
 	$RNASEQQC_RIBOSOME_GRCH38_BWA_INDEX_ROOT/~{rrnaRefName} \
-	<(bunzip2 -c ~{fastqR1}) \
-	<(bunzip2 -c ~{fastqR2}) \
-	| \
-	samtools view -S -b - \
+	- \
 	| \
 	samtools flagstat - > ~{resultName}
     >>>
