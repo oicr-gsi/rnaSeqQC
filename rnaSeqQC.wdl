@@ -166,6 +166,7 @@ task bwaMem {
 	| samtools fastq - \
 	| bwa mem \
 	-M \
+	-t 8 \
 	-p \
 	$RNASEQQC_RIBOSOME_GRCH38_BWA_INDEX_ROOT/~{rrnaRefName} \
 	- \

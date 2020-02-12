@@ -4,7 +4,7 @@ CHANGELOG
 Unreleased
 ----------
 
-v1.1.0: 2020-02-12
+v1.1.0: 2020-02-13
 ------------------
 
 - GP-2132 Run BWA streamed, without writing fastq to disk
