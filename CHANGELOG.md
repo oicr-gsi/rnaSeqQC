@@ -4,6 +4,12 @@ CHANGELOG
 Unreleased
 ----------
 
+v1.1.0: 2020-02-13
+------------------
+
+- GP-2132 Run BWA streamed, without writing fastq to disk
+- Bugfix for `bwa mem -p`; see comment on GP-2132
+
 v1.0.2: 2020-02-06
 ------------------
 
