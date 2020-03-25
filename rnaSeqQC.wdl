@@ -205,7 +205,7 @@ task collate {
 	String outputFileNamePrefix
 	String strandSpecificity
 	String collatedSuffix = "collatedMetrics.json"
-	String modules = "production-tools-python/0"
+	String modules = "production-tools-python/2"
 	Int jobMemory = 16
 	Int threads = 4
 	Int timeout = 4
