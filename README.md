@@ -26,6 +26,11 @@ java -jar cromwell.jar run rnaSeqQC.wdl --inputs inputs.json
 Parameter|Value|Description
 ---|---|---
 `bamFile`|File|Input BAM file on which to compute QC metrics
+`bwaMem.refFasta`|String|Path to human genome FASTA reference
+`bwaMem.modules`|String|required environment modules
+`picard.refFlat`|String|Path to Picard flatfile reference
+`picard.refFasta`|String|Path to human genome FASTA reference
+`picard.modules`|String|Required environment modules
 
 
 #### Optional workflow parameters:
@@ -43,8 +48,6 @@ Parameter|Value|Default|Description
 `bamqc.jobMemory`|Int|16|Memory allocated for this job
 `bamqc.threads`|Int|4|Requested CPU threads
 `bamqc.timeout`|Int|4|hours before task timeout
-`bwaMem.refFasta`|String|None|Path to human genome FASTA reference
-`bwaMem.modules`|String|None|required environment modules
 `bwaMem.contamSuffix`|String|"contaminationBwaFlagstat.txt"|Suffix for output file
 `bwaMem.threads`|Int|4|Requested CPU threads
 `bwaMem.jobMemory`|Int|16|Memory allocated for this job
@@ -54,9 +57,6 @@ Parameter|Value|Default|Description
 `countUniqueReads.jobMemory`|Int|16|Memory allocated for this job
 `countUniqueReads.threads`|Int|4|Requested CPU threads
 `countUniqueReads.timeout`|Int|4|hours before task timeout
-`picard.refFlat`|String|None|Path to Picard flatfile reference
-`picard.refFasta`|String|None|Path to human genome FASTA reference
-`picard.modules`|String|None|Required environment modules
 `picard.picardMem`|Int|6000|Memory to run picard JAR, in MB
 `picard.picardSuffix`|String|"picardCollectRNASeqMetrics.txt"|Suffix for output file
 `picard.jobMemory`|Int|64|Memory allocated for this job
