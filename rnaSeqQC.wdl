@@ -5,6 +5,7 @@ workflow rnaSeqQC {
     input {
 	File bamFile
 	String outputFileNamePrefix = "rnaSeqQC"
+	String strandSpecificity = "NONE"
     }
 
     parameter_meta {
@@ -34,6 +35,7 @@ workflow rnaSeqQC {
 	input:
 	bamFile = bamFile,
 	outputFileNamePrefix = outputFileNamePrefix,
+	strandSpecificity = strandSpecificity
     }
 
     call collate {
@@ -42,7 +44,8 @@ workflow rnaSeqQC {
 	contam = bwaMem.result,
 	picard = picard.result,
 	uniqueReads = countUniqueReads.result,
-	outputFileNamePrefix = outputFileNamePrefix
+	outputFileNamePrefix = outputFileNamePrefix,
+	strandSpecificity = strandSpecificity
     }
     
     output {
@@ -63,7 +66,7 @@ workflow rnaSeqQC {
 	    url: "https://broadinstitute.github.io/picard/command-line-overview.html"
 	},
 	{
-	    name: "production-tools-python/1.0.1",
+	    name: "production-tools-python/1.1.2",
 	    url: "https://bitbucket.oicr.on.ca/projects/GSI/repos/production-tools-python/"
 	},
 	{
@@ -71,7 +74,7 @@ workflow rnaSeqQC {
 	    url: "https://github.com/lh3/bwa/releases/download/v0.7.17/bwa-0.7.17.tar.bz2"
 	},
 	{
-	    name: "bam-qc-metrics/0.2.3",
+	    name: "bam-qc-metrics/0.2.5",
 	    url: "https://github.com/oicr-gsi/bam-qc-metrics.git"
 	}
 	]
@@ -200,8 +203,9 @@ task collate {
 	File picard
 	File uniqueReads
 	String outputFileNamePrefix
+	String strandSpecificity
 	String collatedSuffix = "collatedMetrics.json"
-	String modules = "production-tools-python/0"
+	String modules = "production-tools-python/2"
 	Int jobMemory = 16
 	Int threads = 4
 	Int timeout = 4
@@ -222,14 +226,16 @@ task collate {
 
     String resultName = "~{outputFileNamePrefix}.~{collatedSuffix}"
     String collationScript = "rnaseqqc-collate"
-    
+    String strandOption = if strandSpecificity=="NONE" then "--no-strand-specificity " else ""
+
     command <<<
 	~{collationScript} \
 	--bamqc ~{bamqc} \
 	--contam ~{contam} \
 	--picard ~{picard} \
 	--unique-reads ~{uniqueReads} \
-	--out ~{resultName}
+	--out ~{resultName} \
+	~{strandOption}
     >>>
 
     runtime {

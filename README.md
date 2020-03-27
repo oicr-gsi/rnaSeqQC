@@ -8,9 +8,9 @@ QC metrics for RNASeq data
 
 * [samtools 1.9](https://github.com/samtools/samtools)
 * [picard 2.21.2](https://broadinstitute.github.io/picard/command-line-overview.html)
-* [production-tools-python 1.0.1](https://bitbucket.oicr.on.ca/projects/GSI/repos/production-tools-python/)
+* [production-tools-python 1.1.2](https://bitbucket.oicr.on.ca/projects/GSI/repos/production-tools-python/)
 * [bwa 0.7.17](https://github.com/lh3/bwa/releases/download/v0.7.17/bwa-0.7.17.tar.bz2)
-* [bam-qc-metrics 0.2.3](https://github.com/oicr-gsi/bam-qc-metrics.git)
+* [bam-qc-metrics 0.2.5](https://github.com/oicr-gsi/bam-qc-metrics.git)
 
 
 ## Usage
@@ -26,17 +26,18 @@ java -jar cromwell.jar run rnaSeqQC.wdl --inputs inputs.json
 Parameter|Value|Description
 ---|---|---
 `bamFile`|File|Input BAM file on which to compute QC metrics
-
-#### Required task parameters:
-Parameter|Value|Description
----|---|---
+`bwaMem.refFasta`|String|Path to human genome FASTA reference
+`bwaMem.modules`|String|required environment modules
 `picard.refFlat`|String|Path to Picard flatfile reference
 `picard.refFasta`|String|Path to human genome FASTA reference
+`picard.modules`|String|Required environment modules
+
 
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
 `outputFileNamePrefix`|String|"rnaSeqQC"|Prefix for output files
+`strandSpecificity`|String|"NONE"|
 
 
 #### Optional task parameters:
@@ -47,15 +48,7 @@ Parameter|Value|Default|Description
 `bamqc.jobMemory`|Int|16|Memory allocated for this job
 `bamqc.threads`|Int|4|Requested CPU threads
 `bamqc.timeout`|Int|4|hours before task timeout
-`bamToFastq.suffixAll`|String|"all.fastq"|Suffix for FASTQ file of all reads
-`bamToFastq.suffixR1`|String|"R1.fastq"|Suffix for FASTQ file of read 1
-`bamToFastq.suffixR2`|String|"R2.fastq"|Suffix for FASTQ file of read 2
-`bamToFastq.modules`|String|"samtools/1.9"|required environment modules
-`bamToFastq.jobMemory`|Int|16|Memory allocated for this job
-`bamToFastq.threads`|Int|4|Requested CPU threads
-`bamToFastq.timeout`|Int|4|hours before task timeout
 `bwaMem.contamSuffix`|String|"contaminationBwaFlagstat.txt"|Suffix for output file
-`bwaMem.modules`|String|"samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0"|required environment modules
 `bwaMem.threads`|Int|4|Requested CPU threads
 `bwaMem.jobMemory`|Int|16|Memory allocated for this job
 `bwaMem.timeout`|Int|4|hours before task timeout
@@ -66,12 +59,11 @@ Parameter|Value|Default|Description
 `countUniqueReads.timeout`|Int|4|hours before task timeout
 `picard.picardMem`|Int|6000|Memory to run picard JAR, in MB
 `picard.picardSuffix`|String|"picardCollectRNASeqMetrics.txt"|Suffix for output file
-`picard.strandSpecificity`|String|"NONE"|String to denote strand specificity for Picard
 `picard.jobMemory`|Int|64|Memory allocated for this job
 `picard.threads`|Int|4|Requested CPU threads
 `picard.timeout`|Int|4|hours before task timeout
 `collate.collatedSuffix`|String|"collatedMetrics.json"|Suffix for output file
-`collate.modules`|String|"production-tools-python/0"|required environment modules
+`collate.modules`|String|"production-tools-python/2"|required environment modules
 `collate.jobMemory`|Int|16|Memory allocated for this job
 `collate.threads`|Int|4|Requested CPU threads
 `collate.timeout`|Int|4|hours before task timeout

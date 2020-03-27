@@ -4,6 +4,8 @@ CHANGELOG
 Unreleased
 ----------
 
+- GP-2328 Rewrite Picard strand metrics when strandSpecificity=NONE
+
 v1.1.0: 2020-02-13
 ------------------
 
@@ -23,8 +25,7 @@ v1.0.1: 2020-02-05
 v1.0.0: 2020-02-04
 ------------------
 
-- GR-1036 Initial release of rebuilt RNASeqQC workflow 
-
+- GR-1036 Initial release of rebuilt RNASeqQC workflow
 
 v0.5.0: 2020-02-04
 ------------------
