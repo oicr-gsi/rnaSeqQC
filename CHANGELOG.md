@@ -1,10 +1,12 @@
 CHANGELOG
 =========
 
-Unreleased
-----------
+v1.1.1: 2020-03-30
+------------------
 
+- GP-2327 Use RNA kit strandedness to calculate strandedness values
 - GP-2328 Rewrite Picard strand metrics when strandSpecificity=NONE
+- Update bam-qc-metrics dependency
 
 v1.1.0: 2020-02-13
 ------------------
