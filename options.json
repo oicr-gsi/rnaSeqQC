@@ -1,0 +1,6 @@
+{
+  "default_runtime_attributes": {
+    "docker": "g3chen/rnaseqqc@sha256:9e1796bc05a34d4bf184f3c0682bad098738daefa71120e68a5cd8f295b6b05c",
+    "docker_volume": "/home/ubuntu/Downloads/sample_data:/data"
+  }
+}
