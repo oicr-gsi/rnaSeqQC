@@ -114,7 +114,7 @@ task bamqc {
     bamqcSuffix: "Suffix for output file"
     modules: "required environment modules"
     jobMemory: "Memory allocated for this job"
-    threads: "Requested CPU threads"
+    threads: "Requested CPU thread"
     timeout: "hours before task timeout"
   }
 
