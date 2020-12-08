@@ -139,7 +139,7 @@ task bamqc {
 
   meta {
 	  output_meta: {
-      result: "JSON file containing BAMQC metrics"
+      result: "JSON file containing the BAMQC metrics"
   	}
   }
 }
