@@ -5,15 +5,17 @@ import "imports/pull_star.wdl" as star
 workflow rnaSeqQC {
 
   input {
-	  File? bamFile
+    File? bamFile
     Array[Pair[Pair[File, File], String]]? inputFastqs
-	  String outputFileNamePrefix = "rnaSeqQC"
-	  String strandSpecificity = "NONE"
+    String outputFileNamePrefix = "rnaSeqQC"
+    String strandSpecificity = "NONE"
   }
 
   parameter_meta {
-	  bamFile: "Input BAM file on which to compute QC metrics"
-	  outputFileNamePrefix: "Prefix for output files"
+    bamFile: "Input BAM file on which to compute QC metrics"
+    inputFastqs: "Array of pairs of fastq files together with RG information strings"
+    outputFileNamePrefix: "Prefix for output files"
+    strandSpecificity: "Indicates if we have strand-specific data, could be NONE or empty, default: NONE"
   }
 
 
@@ -22,44 +24,44 @@ workflow rnaSeqQC {
     Array[Pair[Pair[File, File], String]] inputFastqsNonOptional = select_first(inputs)	
     call star.star {
       input:
-        inputFqsRgs = inputFastqsNonOptional,
-        outputFileNamePrefix = outputFileNamePrefix
+      inputFqsRgs = inputFastqsNonOptional,
+      outputFileNamePrefix = outputFileNamePrefix
     }
   }
   
   call bamqc {
-	  input:
-	  bamFile = select_first([bamFile, star.starBam]),
-	  outputFileNamePrefix = outputFileNamePrefix
+    input:
+    bamFile = select_first([bamFile, star.starBam]),
+    outputFileNamePrefix = outputFileNamePrefix
   }
 
   call bwaMem {
-	  input:
-	  bamFile = select_first([bamFile, star.starBam]),
-	  outputFileNamePrefix = outputFileNamePrefix
+    input:
+    bamFile = select_first([bamFile, star.starBam]),
+    outputFileNamePrefix = outputFileNamePrefix
   }
 
   call countUniqueReads {
-	  input:
-	    bamFile = select_first([bamFile, star.starBam]),
-	    outputFileNamePrefix = outputFileNamePrefix
+    input:
+    bamFile = select_first([bamFile, star.starBam]),
+    outputFileNamePrefix = outputFileNamePrefix
   }
     
   call picard {
-	  input:
-	    bamFile = select_first([bamFile, star.starBam]),
-	    outputFileNamePrefix = outputFileNamePrefix,
-	    strandSpecificity = strandSpecificity
+    input:
+    bamFile = select_first([bamFile, star.starBam]),
+    outputFileNamePrefix = outputFileNamePrefix,
+    strandSpecificity = strandSpecificity
   }
 
   call collate {
-	  input:
-	    bamqc = bamqc.result,
-	    contam = bwaMem.result,
-	    picard = picard.result,
-	    uniqueReads = countUniqueReads.result,
-	    outputFileNamePrefix = outputFileNamePrefix,
-	    strandSpecificity = strandSpecificity
+    input:
+    bamqc = bamqc.result,
+    contam = bwaMem.result,
+    picard = picard.result,
+    uniqueReads = countUniqueReads.result,
+    outputFileNamePrefix = outputFileNamePrefix,
+    strandSpecificity = strandSpecificity
   }
     
   output {
@@ -67,31 +69,31 @@ workflow rnaSeqQC {
   }
 
   meta {
-	  author: "Iain Bancarz and Rishi Shah"
-	  email: "ibancarz@oicr.on.ca and rshah@oicr.on.ca"
-	  description: "QC metrics for RNASeq data"
-	  dependencies: [
-	  {
-	    name: "samtools/1.9",
-	    url: "https://github.com/samtools/samtools"
-	  },
-	  {
-	    name: "picard/2.21.2",
-	    url: "https://broadinstitute.github.io/picard/command-line-overview.html"
-	  },
-	  {
-	    name: "production-tools-python/1.1.2",
-	    url: "https://bitbucket.oicr.on.ca/projects/GSI/repos/production-tools-python/"
-	  },
-	  {
-	    name: "bwa/0.7.17",
-	    url: "https://github.com/lh3/bwa/releases/download/v0.7.17/bwa-0.7.17.tar.bz2"
-	  },
-	  {
-	    name: "bam-qc-metrics/0.2.5",
-	    url: "https://github.com/oicr-gsi/bam-qc-metrics.git"
-	  }
-	  ]
+     author: "Iain Bancarz and Rishi Shah"
+     email: "ibancarz@oicr.on.ca and rshah@oicr.on.ca"
+     description: "QC metrics for RNASeq data"
+     dependencies: [
+     {
+       name: "samtools/1.9",
+       url: "https://github.com/samtools/samtools"
+     },
+     {
+       name: "picard/2.21.2",
+       url: "https://broadinstitute.github.io/picard/command-line-overview.html"
+     },
+     {
+       name: "production-tools-python/1.1.2",
+       url: "https://bitbucket.oicr.on.ca/projects/GSI/repos/production-tools-python/"
+     },
+     {
+       name: "bwa/0.7.17",
+       url: "https://github.com/lh3/bwa/releases/download/v0.7.17/bwa-0.7.17.tar.bz2"
+     },
+     {
+       name: "bam-qc-metrics/0.2.5",
+       url: "https://github.com/oicr-gsi/bam-qc-metrics.git"
+     }
+     ]
   }
 }
 
@@ -171,7 +173,7 @@ task bwaMem {
   String resultName = "~{outputFileNamePrefix}.~{contamSuffix}"
   String rrnaRefName = "human_all_rRNA.fasta"
 
-    # $RNASEQQC_RIBOSOME_GRCH38_BWA_INDEX_ROOT in module rnaseqqc-ribosome-grch38-bwa-index
+  # $RNASEQQC_RIBOSOME_GRCH38_BWA_INDEX_ROOT in module rnaseqqc-ribosome-grch38-bwa-index
 
   command <<<
     set -e
@@ -203,9 +205,9 @@ task bwaMem {
   }
 
   meta {
-	  output_meta: {
-      result: "Text file with results of running 'samtools flagstat' on BWA output"
-	  }
+    output_meta: {
+    result: "Text file with results of running 'samtools flagstat' on BWA output"
+    }
   }
 }
 
@@ -264,9 +266,9 @@ task collate {
   }
 
   meta {
-	  output_meta: {
-      collatedResults: "JSON file of collated rnaSeqQC output"
-	  }
+         output_meta: {
+         collatedResults: "JSON file of collated rnaSeqQC output"
+	 }
   }
 }
 
@@ -308,13 +310,13 @@ task countUniqueReads {
   }
     
   output {
-	  File result = "~{resultName}"
+    File result = "~{resultName}"
   }
 
   meta {
-	  output_meta: {
-      result: "Text file with unique read count"
-	  }
+    output_meta: {
+    result: "Text file with unique read count"
+    }
   }
 }
 

@@ -84,9 +84,10 @@ parameter_meta {
     runStar_modules: "modules for running STAR"
     runStar_addParam: "Additional STAR parameters"
     runStar_genereadSuffix: "ReadsPerGene file suffix"
+    runStar_genomeIndexDir: "Directory with STAR index files"
     runStar_chimericjunctionSuffix: "Suffix for chimeric junction file"
     runStar_transcriptomeSuffix: "Suffix for transcriptome-aligned file"
-runStar_starSuffix: "Suffix for sorted file"
+    runStar_starSuffix: "Suffix for sorted file"
 }
 
 output {
