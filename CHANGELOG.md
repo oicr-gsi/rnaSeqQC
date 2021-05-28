@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+v1.2.0: 2020-05-05
+------------------
+
+- GRD-50 Making sure rnaSeqQC is in good shape
+- Removed duplicated code
+- updating README, pom and test.json
+
+
 v1.1.1: 2020-03-30
 ------------------
 
