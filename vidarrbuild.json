@@ -1,0 +1,7 @@
+{
+    "names": [
+        "rnaseqqc_call_ready",
+        "rnaseqqc_lane_level"
+    ],
+    "wdl": "rnaSeqQC.wdl"
+}

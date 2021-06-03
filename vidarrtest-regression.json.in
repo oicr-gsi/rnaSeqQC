@@ -1,0 +1,341 @@
+[
+    {
+        "arguments": {
+            "rnaSeqQC.bamFile": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.tiny.bam",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "rnaSeqQC.bamqc.bamqcSuffix": null,
+            "rnaSeqQC.bamqc.jobMemory": null,
+            "rnaSeqQC.bamqc.modules": null,
+            "rnaSeqQC.bamqc.threads": null,
+            "rnaSeqQC.bamqc.timeout": null,
+            "rnaSeqQC.bwaMem.contamSuffix": null,
+            "rnaSeqQC.bwaMem.jobMemory": null,
+            "rnaSeqQC.bwaMem.modules": "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0 hg38/p12",
+            "rnaSeqQC.bwaMem.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
+            "rnaSeqQC.bwaMem.threads": null,
+            "rnaSeqQC.bwaMem.timeout": null,
+            "rnaSeqQC.collate.collatedSuffix": null,
+            "rnaSeqQC.collate.jobMemory": null,
+            "rnaSeqQC.collate.modules": null,
+            "rnaSeqQC.collate.threads": null,
+            "rnaSeqQC.collate.timeout": null,
+            "rnaSeqQC.countUniqueReads.jobMemory": null,
+            "rnaSeqQC.countUniqueReads.modules": null,
+            "rnaSeqQC.countUniqueReads.threads": null,
+            "rnaSeqQC.countUniqueReads.timeout": null,
+            "rnaSeqQC.countUniqueReads.uniqueReadsSuffix": null,
+            "rnaSeqQC.inputFastqs": null,
+            "rnaSeqQC.outputFileNamePrefix": null,
+            "rnaSeqQC.picard.jobMemory": null,
+            "rnaSeqQC.picard.modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
+            "rnaSeqQC.picard.picardMem": null,
+            "rnaSeqQC.picard.picardSuffix": null,
+            "rnaSeqQC.picard.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
+            "rnaSeqQC.picard.refFlat": "/.mounts/labs/gsi/modulator/sw/data/hg38-refflat-p12/refflat.txt",
+            "rnaSeqQC.picard.threads": null,
+            "rnaSeqQC.picard.timeout": null,
+            "rnaSeqQC.star.indexBam_jobMemory": null,
+            "rnaSeqQC.star.indexBam_modules": null,
+            "rnaSeqQC.star.indexBam_timeout": null,
+            "rnaSeqQC.star.runStar_addParam": null,
+            "rnaSeqQC.star.runStar_alignIntMax": null,
+            "rnaSeqQC.star.runStar_alignMatGapMax": null,
+            "rnaSeqQC.star.runStar_alignSJDBOvMin": null,
+            "rnaSeqQC.star.runStar_chimJunOvMin": null,
+            "rnaSeqQC.star.runStar_chimMulmapNmax": null,
+            "rnaSeqQC.star.runStar_chimMulmapScoRan": null,
+            "rnaSeqQC.star.runStar_chimNonchimScoDMin": null,
+            "rnaSeqQC.star.runStar_chimOutJunForm": null,
+            "rnaSeqQC.star.runStar_chimScoJunNonGTAG": null,
+            "rnaSeqQC.star.runStar_chimSegmin": null,
+            "rnaSeqQC.star.runStar_chimericjunctionSuffix": null,
+            "rnaSeqQC.star.runStar_genereadSuffix": null,
+            "rnaSeqQC.star.runStar_genomeIndexDir": null,
+            "rnaSeqQC.star.runStar_jobMemory": null,
+            "rnaSeqQC.star.runStar_modules": null,
+            "rnaSeqQC.star.runStar_multiMax": null,
+            "rnaSeqQC.star.runStar_peOvMMp": null,
+            "rnaSeqQC.star.runStar_peOvNbasesMin": null,
+            "rnaSeqQC.star.runStar_saSparsed": null,
+            "rnaSeqQC.star.runStar_starSuffix": null,
+            "rnaSeqQC.star.runStar_threads": null,
+            "rnaSeqQC.star.runStar_timeout": null,
+            "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
+            "rnaSeqQC.star.runStar_uniqMAPQ": null,
+            "rnaSeqQC.strandSpecificity": null
+        },
+        "description": "rnaSeqQC workflow test",
+        "engineArguments": {},
+        "id": "rnaSeqQC_test_small",
+        "metadata": {
+            "rnaSeqQC.result": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_rnaSeqQC_rnaSeqQC_test_small_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            }
+        },
+        "validators": [
+            {
+                "metrics_calculate": "@CHECKOUT@/./calculate.sh",
+                "metrics_compare": "@CHECKOUT@/./compare.sh",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_small.metrics",
+                "type": "script"
+            }
+        ]
+    },
+    {
+        "arguments": {
+            "rnaSeqQC.bamFile": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.bam",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "rnaSeqQC.bamqc.bamqcSuffix": null,
+            "rnaSeqQC.bamqc.jobMemory": null,
+            "rnaSeqQC.bamqc.modules": null,
+            "rnaSeqQC.bamqc.threads": null,
+            "rnaSeqQC.bamqc.timeout": null,
+            "rnaSeqQC.bwaMem.contamSuffix": null,
+            "rnaSeqQC.bwaMem.jobMemory": null,
+            "rnaSeqQC.bwaMem.modules": "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0 hg38/p12",
+            "rnaSeqQC.bwaMem.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
+            "rnaSeqQC.bwaMem.threads": null,
+            "rnaSeqQC.bwaMem.timeout": null,
+            "rnaSeqQC.collate.collatedSuffix": null,
+            "rnaSeqQC.collate.jobMemory": null,
+            "rnaSeqQC.collate.modules": null,
+            "rnaSeqQC.collate.threads": null,
+            "rnaSeqQC.collate.timeout": null,
+            "rnaSeqQC.countUniqueReads.jobMemory": null,
+            "rnaSeqQC.countUniqueReads.modules": null,
+            "rnaSeqQC.countUniqueReads.threads": null,
+            "rnaSeqQC.countUniqueReads.timeout": null,
+            "rnaSeqQC.countUniqueReads.uniqueReadsSuffix": null,
+            "rnaSeqQC.inputFastqs": null,
+            "rnaSeqQC.outputFileNamePrefix": null,
+            "rnaSeqQC.picard.jobMemory": null,
+            "rnaSeqQC.picard.modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
+            "rnaSeqQC.picard.picardMem": null,
+            "rnaSeqQC.picard.picardSuffix": null,
+            "rnaSeqQC.picard.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
+            "rnaSeqQC.picard.refFlat": "/.mounts/labs/gsi/modulator/sw/data/hg38-refflat-p12/refflat.txt",
+            "rnaSeqQC.picard.threads": null,
+            "rnaSeqQC.picard.timeout": null,
+            "rnaSeqQC.star.indexBam_jobMemory": null,
+            "rnaSeqQC.star.indexBam_modules": null,
+            "rnaSeqQC.star.indexBam_timeout": null,
+            "rnaSeqQC.star.runStar_addParam": null,
+            "rnaSeqQC.star.runStar_alignIntMax": null,
+            "rnaSeqQC.star.runStar_alignMatGapMax": null,
+            "rnaSeqQC.star.runStar_alignSJDBOvMin": null,
+            "rnaSeqQC.star.runStar_chimJunOvMin": null,
+            "rnaSeqQC.star.runStar_chimMulmapNmax": null,
+            "rnaSeqQC.star.runStar_chimMulmapScoRan": null,
+            "rnaSeqQC.star.runStar_chimNonchimScoDMin": null,
+            "rnaSeqQC.star.runStar_chimOutJunForm": null,
+            "rnaSeqQC.star.runStar_chimScoJunNonGTAG": null,
+            "rnaSeqQC.star.runStar_chimSegmin": null,
+            "rnaSeqQC.star.runStar_chimericjunctionSuffix": null,
+            "rnaSeqQC.star.runStar_genereadSuffix": null,
+            "rnaSeqQC.star.runStar_genomeIndexDir": null,
+            "rnaSeqQC.star.runStar_jobMemory": null,
+            "rnaSeqQC.star.runStar_modules": null,
+            "rnaSeqQC.star.runStar_multiMax": null,
+            "rnaSeqQC.star.runStar_peOvMMp": null,
+            "rnaSeqQC.star.runStar_peOvNbasesMin": null,
+            "rnaSeqQC.star.runStar_saSparsed": null,
+            "rnaSeqQC.star.runStar_starSuffix": null,
+            "rnaSeqQC.star.runStar_threads": null,
+            "rnaSeqQC.star.runStar_timeout": null,
+            "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
+            "rnaSeqQC.star.runStar_uniqMAPQ": null,
+            "rnaSeqQC.strandSpecificity": null
+        },
+        "description": "rnaSeqQC workflow test",
+        "engineArguments": {},
+        "id": "rnaSeqQC_test_medium",
+        "metadata": {
+            "rnaSeqQC.result": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_rnaSeqQC_rnaSeqQC_test_medium_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            }
+        },
+        "validators": [
+            {
+                "metrics_calculate": "@CHECKOUT@/./calculate.sh",
+                "metrics_compare": "@CHECKOUT@/./compare.sh",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_medium.metrics",
+                "type": "script"
+            }
+        ]
+    },
+    {
+        "arguments": {
+            "rnaSeqQC.bamFile": null,
+            "rnaSeqQC.bamqc.bamqcSuffix": null,
+            "rnaSeqQC.bamqc.jobMemory": null,
+            "rnaSeqQC.bamqc.modules": null,
+            "rnaSeqQC.bamqc.threads": null,
+            "rnaSeqQC.bamqc.timeout": null,
+            "rnaSeqQC.bwaMem.contamSuffix": null,
+            "rnaSeqQC.bwaMem.jobMemory": null,
+            "rnaSeqQC.bwaMem.modules": "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0 hg38/p12",
+            "rnaSeqQC.bwaMem.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
+            "rnaSeqQC.bwaMem.threads": null,
+            "rnaSeqQC.bwaMem.timeout": null,
+            "rnaSeqQC.collate.collatedSuffix": null,
+            "rnaSeqQC.collate.jobMemory": null,
+            "rnaSeqQC.collate.modules": null,
+            "rnaSeqQC.collate.threads": null,
+            "rnaSeqQC.collate.timeout": null,
+            "rnaSeqQC.countUniqueReads.jobMemory": null,
+            "rnaSeqQC.countUniqueReads.modules": null,
+            "rnaSeqQC.countUniqueReads.threads": null,
+            "rnaSeqQC.countUniqueReads.timeout": null,
+            "rnaSeqQC.countUniqueReads.uniqueReadsSuffix": null,
+            "rnaSeqQC.inputFastqs": [
+                {
+                    "left": {
+                        "left": {
+                            "contents": {
+                                "configuration": "/.mounts/labs/gsi/testdata/STAR/input_data/k562_NoIndex_L001_R1_001.fastq.gz",
+                                "externalIds": [
+                                    {
+                                        "id": "TEST",
+                                        "provider": "TEST"
+                                    }
+                                ]
+                            },
+                            "type": "EXTERNAL"
+                        },
+                        "right": {
+                            "contents": {
+                                "configuration": "/.mounts/labs/gsi/testdata/STAR/input_data/k562_NoIndex_L001_R2_001.fastq.gz",
+                                "externalIds": [
+                                    {
+                                        "id": "TEST",
+                                        "provider": "TEST"
+                                    }
+                                ]
+                            },
+                            "type": "EXTERNAL"
+                        }
+                    },
+                    "right": "ID:121005_h804_0096_AD0V4NACXX_4_NoIndex PL:Illumina PU:121005_h804_0096_AD0V4NACXX_4_NoIndex LB:K562_1 SM:K562_1test CM:OICR"
+                },
+                {
+                    "left": {
+                        "left": {
+                            "contents": {
+                                "configuration": "/.mounts/labs/gsi/testdata/STAR/input_data/k562_NoIndex_L001_R1_001.fastq.gz",
+                                "externalIds": [
+                                    {
+                                        "id": "TEST",
+                                        "provider": "TEST"
+                                    }
+                                ]
+                            },
+                            "type": "EXTERNAL"
+                        },
+                        "right": {
+                            "contents": {
+                                "configuration": "/.mounts/labs/gsi/testdata/STAR/input_data/k562_NoIndex_L001_R2_001.fastq.gz",
+                                "externalIds": [
+                                    {
+                                        "id": "TEST",
+                                        "provider": "TEST"
+                                    }
+                                ]
+                            },
+                            "type": "EXTERNAL"
+                        }
+                    },
+                    "right": "ID:121005_h804_0096_AD0V4NACXX_5_NoIndex PL:Illumina PU:121005_h804_0096_AD0V4NACXX_5_NoIndex LB:K562_2 SM:K562_2test CM:OICR"
+                }
+            ],
+            "rnaSeqQC.outputFileNamePrefix": null,
+            "rnaSeqQC.picard.jobMemory": null,
+            "rnaSeqQC.picard.modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
+            "rnaSeqQC.picard.picardMem": null,
+            "rnaSeqQC.picard.picardSuffix": null,
+            "rnaSeqQC.picard.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
+            "rnaSeqQC.picard.refFlat": "/.mounts/labs/gsi/modulator/sw/data/hg38-refflat-p12/refflat.txt",
+            "rnaSeqQC.picard.threads": null,
+            "rnaSeqQC.picard.timeout": null,
+            "rnaSeqQC.star.indexBam_jobMemory": null,
+            "rnaSeqQC.star.indexBam_modules": null,
+            "rnaSeqQC.star.indexBam_timeout": null,
+            "rnaSeqQC.star.runStar_addParam": null,
+            "rnaSeqQC.star.runStar_alignIntMax": null,
+            "rnaSeqQC.star.runStar_alignMatGapMax": null,
+            "rnaSeqQC.star.runStar_alignSJDBOvMin": null,
+            "rnaSeqQC.star.runStar_chimJunOvMin": null,
+            "rnaSeqQC.star.runStar_chimMulmapNmax": null,
+            "rnaSeqQC.star.runStar_chimMulmapScoRan": null,
+            "rnaSeqQC.star.runStar_chimNonchimScoDMin": null,
+            "rnaSeqQC.star.runStar_chimOutJunForm": null,
+            "rnaSeqQC.star.runStar_chimScoJunNonGTAG": null,
+            "rnaSeqQC.star.runStar_chimSegmin": null,
+            "rnaSeqQC.star.runStar_chimericjunctionSuffix": null,
+            "rnaSeqQC.star.runStar_genereadSuffix": null,
+            "rnaSeqQC.star.runStar_genomeIndexDir": null,
+            "rnaSeqQC.star.runStar_jobMemory": null,
+            "rnaSeqQC.star.runStar_modules": null,
+            "rnaSeqQC.star.runStar_multiMax": null,
+            "rnaSeqQC.star.runStar_peOvMMp": null,
+            "rnaSeqQC.star.runStar_peOvNbasesMin": null,
+            "rnaSeqQC.star.runStar_saSparsed": null,
+            "rnaSeqQC.star.runStar_starSuffix": null,
+            "rnaSeqQC.star.runStar_threads": null,
+            "rnaSeqQC.star.runStar_timeout": null,
+            "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
+            "rnaSeqQC.star.runStar_uniqMAPQ": null,
+            "rnaSeqQC.strandSpecificity": null
+        },
+        "description": "rnaSeqQC workflow test",
+        "engineArguments": {},
+        "id": "rnaSeqQC_test_star",
+        "metadata": {
+            "rnaSeqQC.result": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_rnaSeqQC_rnaSeqQC_test_star_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            }
+        },
+        "validators": [
+            {
+                "metrics_calculate": "@CHECKOUT@/./calculate.sh",
+                "metrics_compare": "@CHECKOUT@/./compare.sh",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_star.metrics",
+                "type": "script"
+            }
+        ]
+    }
+]

@@ -1,2 +1,2 @@
 #!/bin/bash
-diff -b  $1 $2
+diff -bw  $1 $2
