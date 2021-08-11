@@ -105,31 +105,68 @@ Output | Type | Description
 `result`|File|JSON file of collated rnaSeqQC output
 
 
-## Niassa + Cromwell
-
-This WDL workflow is wrapped in a Niassa workflow (https://github.com/oicr-gsi/pipedev/tree/master/pipedev-niassa-cromwell-workflow) so that it can used with the Niassa metadata tracking system (https://github.com/oicr-gsi/niassa).
-
-* Building
-```
-mvn clean install
-```
-
-* Testing
-```
-mvn clean verify \
--Djava_opts="-Xmx1g -XX:+UseG1GC -XX:+UseStringDeduplication" \
--DrunTestThreads=2 \
--DskipITs=false \
--DskipRunITs=false \
--DworkingDirectory=/path/to/tmp/ \
--DschedulingHost=niassa_oozie_host \
--DwebserviceUrl=http://niassa-url:8080 \
--DwebserviceUser=niassa_user \
--DwebservicePassword=niassa_user_password \
--Dcromwell-host=http://cromwell-url:8000
-```
-
-## Support
+## Commands
+ This section lists command(s) run by rnaSeqQC workflow
+ 
+ * Running rnaSeqQC
+ 
+ Run QC analysis on RNAseq data
+ 
+ ```
+     write_fast_metrics.py
+     -b INPUT_BAM 
+     -o RESULTS_NAME
+ 
+ ```
+ Alternative to sorting, collate used here to realign with bwa mem and run samtools flagstat:
+ 
+ ```
+     samtools collate 
+     -O 
+     --reference REFERENCE_FASTA
+     INPUT_BAM
+     | samtools fastq - 
+     | bwa mem -M -t 8 -p 
+     BWA_INDEXES_ROOTNAME
+     - 
+     | 
+     samtools flagstat - > RESULTS_NAME
+ 
+ ```
+ 
+ Collate Results:
+ 
+ ```
+     COLLATION_SCRIPT
+     --bamqc BAM_QC_RESULTS
+     --contam CONTAMINATION_RESULTS
+     --picard PICARD_RESULTS 
+     --unique-reads UNIQUE_READS
+     --out RESULT_NAME
+     STRANDEDNESS_OPTION
+ ```
+ 
+ Count the number of primary alignments:
+ 
+ ```
+     samtools view -F 256 INPUT_BAM | wc -l > RESULT_FILE
+ 
+ ```
+ 
+ Collect RNASEQ metrics with picard:
+ 
+ ```
+     java -Xmx~[PICARD_MEMORY]M 
+     -jar picard.jar CollectRnaSeqMetrics 
+     I=INPUT_BAM 
+     O=RESULT_NAME 
+     STRAND_SPECIFICITY=STRAND_SPECIFICITY 
+     REF_FLAT=REF_FLAT 
+     REFERENCE_SEQUENCE=REF_FASTA 
+     VALIDATION_STRINGENCY=SILENT
+ 
+ ```
+ ## Support
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
 
