@@ -31,7 +31,7 @@ workflow rnaSeqQC {
   
   call bamqc {
     input:
-    bamFile = select_first([bamFile, star.starBam]),
+    bamFile = select_first([bamFile, star.transcriptomeBam]),
     outputFileNamePrefix = outputFileNamePrefix
   }
 
