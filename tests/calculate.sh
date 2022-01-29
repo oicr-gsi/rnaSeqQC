@@ -5,4 +5,5 @@ set -o pipefail
 
 module load jq
 # remove the Picard header because it includes temporary paths
-find . -xtype f -exec jq 'del(.picard | .header)' {} \; | python3 -mjson.tool --sort-keys
+for f in $(find . -xtype f | grep -v star);do jq 'del(.picard | .header)' $f | python3 -mjson.tool --sort-keys;done
+for f in $(find . -xtype f | grep star);do jq 'del(.picard | .header)' $f | python3 -mjson.tool --sort-keys | perl -ne '{print if !/\"\d+\": \d+/;}';done
