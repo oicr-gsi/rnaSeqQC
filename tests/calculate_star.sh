@@ -5,4 +5,4 @@ set -o pipefail
 
 module load jq
 # remove the Picard header because it includes temporary paths
-for f in $(find . -xtype f);do jq 'del(.picard | .header)' $f --sort-keys | md5sum;done
+for f in $(find . -xtype f);do jq 'del(.picard | .header)' $f --sort-keys | grep -v '"[[:digit:]]*": [[:digit:]]' | md5sum;done

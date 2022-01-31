@@ -340,7 +340,7 @@
         },
         "validators": [
             {
-                "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
+                "metrics_calculate": "@CHECKOUT@/tests/calculate_star.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
                 "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_star.metrics",
                 "type": "script"
