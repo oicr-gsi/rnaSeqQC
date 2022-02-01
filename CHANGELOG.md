@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v1.2.2: 2022-01-28
+------------------
+- Switching to transcriptome-aligned bam for bamQC (insert size calculation)
+
 v1.2.1: 2021-06-01
 ------------------
 - Migration to Vidarr

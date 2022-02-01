@@ -75,7 +75,10 @@
             "rnaSeqQC.strandSpecificity": null
         },
         "description": "rnaSeqQC workflow test",
-        "engineArguments": {},
+        "engineArguments": {
+           "write_to_cache": false,
+           "read_from_cache": false
+        },
         "id": "rnaSeqQC_test_small",
         "metadata": {
             "rnaSeqQC.result": {
@@ -172,7 +175,10 @@
             "rnaSeqQC.strandSpecificity": null
         },
         "description": "rnaSeqQC workflow test",
-        "engineArguments": {},
+        "engineArguments": {
+           "write_to_cache": false,
+           "read_from_cache": false
+        },
         "id": "rnaSeqQC_test_medium",
         "metadata": {
             "rnaSeqQC.result": {
@@ -317,7 +323,10 @@
             "rnaSeqQC.strandSpecificity": null
         },
         "description": "rnaSeqQC workflow test",
-        "engineArguments": {},
+        "engineArguments": {
+           "write_to_cache": false,
+           "read_from_cache": false
+        },
         "id": "rnaSeqQC_test_star",
         "metadata": {
             "rnaSeqQC.result": {
@@ -331,7 +340,7 @@
         },
         "validators": [
             {
-                "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
+                "metrics_calculate": "@CHECKOUT@/tests/calculate_star.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
                 "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_star.metrics",
                 "type": "script"
