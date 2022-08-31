@@ -92,7 +92,10 @@
             "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
             "rnaSeqQC.star.runStar_uniqMAPQ": null,
             "rnaSeqQC.strandSpecificity": null,
-            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0"
+            "rnaSeqQC.picardInsertSize.jobMemory": null,
+            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0",
+            "rnaSeqQC.picardInsertSize.picardMem": null,
+            "rnaSeqQC.picardInsertSize.picardSuffix": null
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
@@ -212,7 +215,10 @@
             "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
             "rnaSeqQC.star.runStar_uniqMAPQ": null,
             "rnaSeqQC.strandSpecificity": null,
-            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0"
+            "rnaSeqQC.picardInsertSize.jobMemory": null,
+            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0",
+            "rnaSeqQC.picardInsertSize.picardMem": null,
+            "rnaSeqQC.picardInsertSize.picardSuffix": null
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
@@ -366,7 +372,10 @@
             "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
             "rnaSeqQC.star.runStar_uniqMAPQ": null,
             "rnaSeqQC.strandSpecificity": null,
-            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0"
+            "rnaSeqQC.picardInsertSize.jobMemory": null,
+            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0",
+            "rnaSeqQC.picardInsertSize.picardMem": null,
+            "rnaSeqQC.picardInsertSize.picardSuffix": null
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
