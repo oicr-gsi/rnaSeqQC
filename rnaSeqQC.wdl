@@ -2,11 +2,15 @@ version 1.0
 
 import "imports/pull_star.wdl" as star
 
+struct starBams{
+  File genomicBam
+  File transcriptomicBam
+}
+
 workflow rnaSeqQC {
 
   input {
-    File? bamFile
-    File? transcriptomeBamFile
+ 	starBams? inputBams
     Array[Pair[Pair[File, File], String]]? inputFastqs
     String outputFileNamePrefix = "rnaSeqQC"
     String strandSpecificity = "NONE"
@@ -14,14 +18,14 @@ workflow rnaSeqQC {
 
   parameter_meta {
     bamFile: "Input BAM file on which to compute QC metrics"
-    transcriptomeBamFile: "Input transcriptome bam, needed for Insert Size metrics"
+    transcriptomiBamFile: "Input transcriptome bam, needed for Insert Size metrics"
     inputFastqs: "Array of pairs of fastq files together with RG information strings"
     outputFileNamePrefix: "Prefix for output files"
     strandSpecificity: "Indicates if we have strand-specific data, could be NONE or empty, default: NONE"
   }
 
 
-  if (!(defined(bamFile)) && defined(inputFastqs)) {
+  if (!(defined(inputBams)) && defined(inputFastqs)) {
     Array[Array[Pair[Pair[File, File], String]]?] inputs = [inputFastqs]
     Array[Pair[Pair[File, File], String]] inputFastqsNonOptional = select_first(inputs)	
     call star.star {
@@ -29,42 +33,45 @@ workflow rnaSeqQC {
       inputFqsRgs = inputFastqsNonOptional,
       outputFileNamePrefix = outputFileNamePrefix
     }
+    starBams workflowBams = { "genomicBam": star.starBam, "transcriptomicBam": star.transcriptomeBam}
   }
+  
+  starBams bamFiles=select_first([inputBams,workflowBams])
   
   call bamqc {
     input:
-    bamFile = select_first([bamFile, star.starBam]),
+    bamFile = bamFiles.genomicBam,
     outputFileNamePrefix = outputFileNamePrefix
   }
   
   call bamqc as bamqcTranscriptome {
     input:
-    bamFile = select_first([transcriptomeBamFile, star.transcriptomeBam]),
+	bamFile = bamFiles.transcriptomicBam,
     outputFileNamePrefix = outputFileNamePrefix    
   }
 
   call bwaMem {
     input:
-    bamFile = select_first([bamFile, star.starBam]),
+    bamFile = bamFiles.genomicBam,
     outputFileNamePrefix = outputFileNamePrefix
   }
 
   call countUniqueReads {
     input:
-    bamFile = select_first([bamFile, star.starBam]),
+    bamFile = bamFiles.genomicBam,
     outputFileNamePrefix = outputFileNamePrefix
   }
     
   call picard {
     input:
-    bamFile = select_first([bamFile, star.starBam]),
+    bamFile = bamFiles.genomicBam,
     outputFileNamePrefix = outputFileNamePrefix,
     strandSpecificity = strandSpecificity
   }
   
   call picardInsertSize{
     input:
-    bamFile = select_first([transcriptomeBamFile, star.transcriptomeBam]),
+    bamFile = bamFiles.transcriptomicBam,
     outputFileNamePrefix = outputFileNamePrefix
   }
 
