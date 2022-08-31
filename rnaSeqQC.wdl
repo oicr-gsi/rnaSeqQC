@@ -68,11 +68,11 @@ workflow rnaSeqQC {
     strandSpecificity = strandSpecificity
   }
   
-  call picardInsertSize{
-    input:
-    bamFile = bamFiles.transcriptomicBam,
-    outputFileNamePrefix = outputFileNamePrefix
-  }
+  #call picardInsertSize{
+  #  input:
+  #  bamFile = bamFiles.transcriptomicBam,
+  #  outputFileNamePrefix = outputFileNamePrefix
+  #}
 
   call collate {
     input:
