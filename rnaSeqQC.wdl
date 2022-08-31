@@ -17,8 +17,7 @@ workflow rnaSeqQC {
   }
 
   parameter_meta {
-    bamFile: "Input BAM file on which to compute QC metrics"
-    transcriptomiBamFile: "Input transcriptome bam, needed for Insert Size metrics"
+    inputBams: "Input genomic and transcriptomic (for insert size) bam file on which to compute QC metrics"
     inputFastqs: "Array of pairs of fastq files together with RG information strings"
     outputFileNamePrefix: "Prefix for output files"
     strandSpecificity: "Indicates if we have strand-specific data, could be NONE or empty, default: NONE"
@@ -114,6 +113,10 @@ workflow rnaSeqQC {
      {
        name: "bam-qc-metrics/0.2.5",
        url: "https://github.com/oicr-gsi/bam-qc-metrics.git"
+     },
+     {
+      name "jq/1.6",
+      url: "https://stedolan.github.io/jq/"
      }
      ]
   }
@@ -276,10 +279,9 @@ task collate {
     --out "~{resultName}.temp" \
     ~{strandOption}
 
-
+    ### bring in the bamQC transcriptome metrics
     jq '.bamqc_transcriptome += input' "~{resultName}.temp" ~{bamqcTranscriptome} > ~{resultName}
-    ### now spike in the bamQC transcriptome metrics
-	
+    
   >>>
 
   runtime {
