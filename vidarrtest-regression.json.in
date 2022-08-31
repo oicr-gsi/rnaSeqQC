@@ -95,7 +95,9 @@
             "rnaSeqQC.picardInsertSize.jobMemory": null,
             "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0",
             "rnaSeqQC.picardInsertSize.picardMem": null,
-            "rnaSeqQC.picardInsertSize.picardSuffix": null
+            "rnaSeqQC.picardInsertSize.picardSuffix": null,
+            "rnaSeqQC.picardInsertSize.threads": null,
+            "rnaSeqQC.picardInsertSize.timeout": null
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
@@ -218,7 +220,9 @@
             "rnaSeqQC.picardInsertSize.jobMemory": null,
             "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0",
             "rnaSeqQC.picardInsertSize.picardMem": null,
-            "rnaSeqQC.picardInsertSize.picardSuffix": null
+            "rnaSeqQC.picardInsertSize.picardSuffix": null,
+            "rnaSeqQC.picardInsertSize.threads": null,
+            "rnaSeqQC.picardInsertSize.timeout": null
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
@@ -375,7 +379,9 @@
             "rnaSeqQC.picardInsertSize.jobMemory": null,
             "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0",
             "rnaSeqQC.picardInsertSize.picardMem": null,
-            "rnaSeqQC.picardInsertSize.picardSuffix": null
+            "rnaSeqQC.picardInsertSize.picardSuffix": null,
+            "rnaSeqQC.picardInsertSize.threads": null,
+            "rnaSeqQC.picardInsertSize.timeout": null
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
