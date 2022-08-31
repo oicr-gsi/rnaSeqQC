@@ -115,7 +115,7 @@ workflow rnaSeqQC {
        url: "https://github.com/oicr-gsi/bam-qc-metrics.git"
      },
      {
-      name "jq/1.6",
+      name: "jq/1.6",
       url: "https://stedolan.github.io/jq/"
      }
      ]
