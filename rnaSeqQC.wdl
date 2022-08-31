@@ -80,6 +80,7 @@ workflow rnaSeqQC {
     bamqc = bamqc.result,
     contam = bwaMem.result,
     picard = picard.result,
+    bamqcTranscriptome = bamqcTranscriptome.result,
     uniqueReads = countUniqueReads.result,
     outputFileNamePrefix = outputFileNamePrefix,
     strandSpecificity = strandSpecificity
@@ -238,11 +239,12 @@ task collate {
     File bamqc
     File contam
     File picard
+	File bamqcTranscriptome
     File uniqueReads
     String outputFileNamePrefix
     String strandSpecificity
     String collatedSuffix = "collatedMetrics.json"
-    String modules = "production-tools-python/2"
+    String modules = "production-tools-python/2 jq/1.6"
     Int jobMemory = 16
     Int threads = 4
     Int timeout = 4
@@ -271,8 +273,13 @@ task collate {
     --contam ~{contam} \
     --picard ~{picard} \
     --unique-reads ~{uniqueReads} \
-    --out ~{resultName} \
+    --out "~{resultName}.temp" \
     ~{strandOption}
+
+
+    jq '.bamqc_transcriptome += input' "~{resultName}.temp" ~{bamqcTranscriptome} > ~{resultName}
+    ### now spike in the bamQC transcriptome metrics
+	
   >>>
 
   runtime {
