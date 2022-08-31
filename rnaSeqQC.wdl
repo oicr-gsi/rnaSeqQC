@@ -68,6 +68,7 @@ workflow rnaSeqQC {
     strandSpecificity = strandSpecificity
   }
   
+  # Disabled; but maintaining should we want to use this approach to calculaitng insert size
   #call picardInsertSize{
   #  input:
   #  bamFile = bamFiles.transcriptomicBam,
