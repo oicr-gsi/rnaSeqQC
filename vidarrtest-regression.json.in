@@ -1,18 +1,32 @@
 [
     {
         "arguments": {
-            "rnaSeqQC.bamFile": {
-                "contents": {
+            "rnaSeqQC.inputBams": {
+                "genomicBam": {
+                  "contents": {
                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.tiny.bam",
                     "externalIds": [
-                        {
-                            "id": "TEST",
-                            "provider": "TEST"
-                        }
+                     {
+                        "id": "TEST",
+                        "provider": "TEST"
+                     }
                     ]
+                  },
+                  "type": "EXTERNAL"
                 },
-                "type": "EXTERNAL"
-            },
+                "transcriptomicBam": {
+                   "contents": {
+                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.toTranscriptome.out.tiny.bam",
+                     "externalIds": [
+                      {
+                         "id": "TEST",
+                         "provider": "TEST"
+                      }
+                     ]
+                  },
+                  "type": "EXTERNAL"
+                }
+             },
             "rnaSeqQC.bamqc.bamqcSuffix": null,
             "rnaSeqQC.bamqc.jobMemory": null,
             "rnaSeqQC.bamqc.modules": null,
@@ -72,7 +86,8 @@
             "rnaSeqQC.star.runStar_timeout": null,
             "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
             "rnaSeqQC.star.runStar_uniqMAPQ": null,
-            "rnaSeqQC.strandSpecificity": null
+            "rnaSeqQC.strandSpecificity": null,
+            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0"
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
@@ -101,18 +116,32 @@
     },
     {
         "arguments": {
-            "rnaSeqQC.bamFile": {
-                "contents": {
+            "rnaSeqQC.inputBams": {
+                "genomicBam": {
+                  "contents": {
                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.bam",
                     "externalIds": [
-                        {
-                            "id": "TEST",
-                            "provider": "TEST"
-                        }
+                     {
+                        "id": "TEST",
+                        "provider": "TEST"
+                     }
                     ]
+                  },
+                  "type": "EXTERNAL"
                 },
-                "type": "EXTERNAL"
-            },
+                "transcriptomicBam": {
+                   "contents": {
+                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.toTranscriptome.out.bam",
+                     "externalIds": [
+                      {
+                         "id": "TEST",
+                         "provider": "TEST"
+                      }
+                     ]
+                  },
+                  "type": "EXTERNAL"
+                }
+             },
             "rnaSeqQC.bamqc.bamqcSuffix": null,
             "rnaSeqQC.bamqc.jobMemory": null,
             "rnaSeqQC.bamqc.modules": null,
@@ -172,7 +201,8 @@
             "rnaSeqQC.star.runStar_timeout": null,
             "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
             "rnaSeqQC.star.runStar_uniqMAPQ": null,
-            "rnaSeqQC.strandSpecificity": null
+            "rnaSeqQC.strandSpecificity": null,
+            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0"
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
@@ -201,7 +231,7 @@
     },
     {
         "arguments": {
-            "rnaSeqQC.bamFile": null,
+            "rnaSeqQC.inputBams": null,
             "rnaSeqQC.bamqc.bamqcSuffix": null,
             "rnaSeqQC.bamqc.jobMemory": null,
             "rnaSeqQC.bamqc.modules": null,
@@ -320,7 +350,8 @@
             "rnaSeqQC.star.runStar_timeout": null,
             "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
             "rnaSeqQC.star.runStar_uniqMAPQ": null,
-            "rnaSeqQC.strandSpecificity": null
+            "rnaSeqQC.strandSpecificity": null,
+            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0"
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
