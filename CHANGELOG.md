@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+v1.2.3: 2022-09-01
+------------------ 
+- reverting back to genomic-aligned bam for bamQC
+- running a separate bamQC on the transcriptome bam
+- modified to ensure for bam input that both genomic and transcriptomic bam files are provided
+- collecting bamQC output from transcriptome bam into collated json with some jq code, under bamqc_transcriptomic
+- task for picard InsertSizeMetrics included, but not currently in use. this is an alternate way to calculate insert size metrics
+
+
 v1.2.2: 2022-01-28
 ------------------
 - Switching to transcriptome-aligned bam for bamQC (insert size calculation)
