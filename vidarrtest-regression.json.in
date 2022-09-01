@@ -119,7 +119,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_small.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/2.3/rnaSeqQC_test_small.metrics",
                 "type": "script"
             }
         ]
@@ -244,7 +244,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_medium.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/2.3/rnaSeqQC_test_medium.metrics",
                 "type": "script"
             }
         ]
@@ -403,7 +403,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate_star.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_star.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/2.3/rnaSeqQC_test_star.metrics",
                 "type": "script"
             }
         ]
