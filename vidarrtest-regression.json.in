@@ -1,23 +1,42 @@
 [
     {
         "arguments": {
-            "rnaSeqQC.bamFile": {
-                "contents": {
+            "rnaSeqQC.inputBams": {
+                "genomicBam": {
+                  "contents": {
                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.tiny.bam",
                     "externalIds": [
-                        {
-                            "id": "TEST",
-                            "provider": "TEST"
-                        }
+                     {
+                        "id": "TEST",
+                        "provider": "TEST"
+                     }
                     ]
+                  },
+                  "type": "EXTERNAL"
                 },
-                "type": "EXTERNAL"
-            },
+                "transcriptomicBam": {
+                   "contents": {
+                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.toTranscriptome.out.tiny.bam",
+                     "externalIds": [
+                      {
+                         "id": "TEST",
+                         "provider": "TEST"
+                      }
+                     ]
+                  },
+                  "type": "EXTERNAL"
+                }
+             },
             "rnaSeqQC.bamqc.bamqcSuffix": null,
             "rnaSeqQC.bamqc.jobMemory": null,
             "rnaSeqQC.bamqc.modules": null,
             "rnaSeqQC.bamqc.threads": null,
             "rnaSeqQC.bamqc.timeout": null,
+            "rnaSeqQC.bamqcTranscriptome.bamqcSuffix": null,
+            "rnaSeqQC.bamqcTranscriptome.jobMemory": null,
+            "rnaSeqQC.bamqcTranscriptome.modules": null,
+            "rnaSeqQC.bamqcTranscriptome.threads": null,
+            "rnaSeqQC.bamqcTranscriptome.timeout": null,
             "rnaSeqQC.bwaMem.contamSuffix": null,
             "rnaSeqQC.bwaMem.jobMemory": null,
             "rnaSeqQC.bwaMem.modules": "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0 hg38/p12",
@@ -72,7 +91,13 @@
             "rnaSeqQC.star.runStar_timeout": null,
             "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
             "rnaSeqQC.star.runStar_uniqMAPQ": null,
-            "rnaSeqQC.strandSpecificity": null
+            "rnaSeqQC.strandSpecificity": null,
+            "rnaSeqQC.picardInsertSize.jobMemory": null,
+            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0",
+            "rnaSeqQC.picardInsertSize.picardMem": null,
+            "rnaSeqQC.picardInsertSize.picardSuffix": null,
+            "rnaSeqQC.picardInsertSize.threads": null,
+            "rnaSeqQC.picardInsertSize.timeout": null
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
@@ -94,30 +119,49 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_small.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/2.3/rnaSeqQC_test_small.metrics",
                 "type": "script"
             }
         ]
     },
     {
         "arguments": {
-            "rnaSeqQC.bamFile": {
-                "contents": {
+            "rnaSeqQC.inputBams": {
+                "genomicBam": {
+                  "contents": {
                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.bam",
                     "externalIds": [
-                        {
-                            "id": "TEST",
-                            "provider": "TEST"
-                        }
+                     {
+                        "id": "TEST",
+                        "provider": "TEST"
+                     }
                     ]
+                  },
+                  "type": "EXTERNAL"
                 },
-                "type": "EXTERNAL"
-            },
+                "transcriptomicBam": {
+                   "contents": {
+                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.toTranscriptome.out.bam",
+                     "externalIds": [
+                      {
+                         "id": "TEST",
+                         "provider": "TEST"
+                      }
+                     ]
+                  },
+                  "type": "EXTERNAL"
+                }
+             },
             "rnaSeqQC.bamqc.bamqcSuffix": null,
             "rnaSeqQC.bamqc.jobMemory": null,
             "rnaSeqQC.bamqc.modules": null,
             "rnaSeqQC.bamqc.threads": null,
             "rnaSeqQC.bamqc.timeout": null,
+            "rnaSeqQC.bamqcTranscriptome.bamqcSuffix": null,
+            "rnaSeqQC.bamqcTranscriptome.jobMemory": null,
+            "rnaSeqQC.bamqcTranscriptome.modules": null,
+            "rnaSeqQC.bamqcTranscriptome.threads": null,
+            "rnaSeqQC.bamqcTranscriptome.timeout": null,
             "rnaSeqQC.bwaMem.contamSuffix": null,
             "rnaSeqQC.bwaMem.jobMemory": null,
             "rnaSeqQC.bwaMem.modules": "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0 hg38/p12",
@@ -172,7 +216,13 @@
             "rnaSeqQC.star.runStar_timeout": null,
             "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
             "rnaSeqQC.star.runStar_uniqMAPQ": null,
-            "rnaSeqQC.strandSpecificity": null
+            "rnaSeqQC.strandSpecificity": null,
+            "rnaSeqQC.picardInsertSize.jobMemory": null,
+            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0",
+            "rnaSeqQC.picardInsertSize.picardMem": null,
+            "rnaSeqQC.picardInsertSize.picardSuffix": null,
+            "rnaSeqQC.picardInsertSize.threads": null,
+            "rnaSeqQC.picardInsertSize.timeout": null
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
@@ -194,19 +244,24 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_medium.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/2.3/rnaSeqQC_test_medium.metrics",
                 "type": "script"
             }
         ]
     },
     {
         "arguments": {
-            "rnaSeqQC.bamFile": null,
+            "rnaSeqQC.inputBams": null,
             "rnaSeqQC.bamqc.bamqcSuffix": null,
             "rnaSeqQC.bamqc.jobMemory": null,
             "rnaSeqQC.bamqc.modules": null,
             "rnaSeqQC.bamqc.threads": null,
             "rnaSeqQC.bamqc.timeout": null,
+            "rnaSeqQC.bamqcTranscriptome.bamqcSuffix": null,
+            "rnaSeqQC.bamqcTranscriptome.jobMemory": null,
+            "rnaSeqQC.bamqcTranscriptome.modules": null,
+            "rnaSeqQC.bamqcTranscriptome.threads": null,
+            "rnaSeqQC.bamqcTranscriptome.timeout": null,
             "rnaSeqQC.bwaMem.contamSuffix": null,
             "rnaSeqQC.bwaMem.jobMemory": null,
             "rnaSeqQC.bwaMem.modules": "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0 hg38/p12",
@@ -320,7 +375,13 @@
             "rnaSeqQC.star.runStar_timeout": null,
             "rnaSeqQC.star.runStar_transcriptomeSuffix": null,
             "rnaSeqQC.star.runStar_uniqMAPQ": null,
-            "rnaSeqQC.strandSpecificity": null
+            "rnaSeqQC.strandSpecificity": null,
+            "rnaSeqQC.picardInsertSize.jobMemory": null,
+            "rnaSeqQC.picardInsertSize.modules": "picard/2.21.2 samtools/1.15 rstats/4.0",
+            "rnaSeqQC.picardInsertSize.picardMem": null,
+            "rnaSeqQC.picardInsertSize.picardSuffix": null,
+            "rnaSeqQC.picardInsertSize.threads": null,
+            "rnaSeqQC.picardInsertSize.timeout": null
         },
         "description": "rnaSeqQC workflow test",
         "engineArguments": {
@@ -340,9 +401,9 @@
         },
         "validators": [
             {
-                "metrics_calculate": "@CHECKOUT@/tests/calculate_star.sh",
+                "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/rnaSeqQC_test_star.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/2.3/rnaSeqQC_test_star.metrics",
                 "type": "script"
             }
         ]

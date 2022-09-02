@@ -2,24 +2,29 @@ version 1.0
 
 import "imports/pull_star.wdl" as star
 
+struct starBams{
+  File genomicBam
+  File transcriptomicBam
+}
+
 workflow rnaSeqQC {
 
   input {
-    File? bamFile
+ 	starBams? inputBams
     Array[Pair[Pair[File, File], String]]? inputFastqs
     String outputFileNamePrefix = "rnaSeqQC"
     String strandSpecificity = "NONE"
   }
 
   parameter_meta {
-    bamFile: "Input BAM file on which to compute QC metrics"
+    inputBams: "Input genomic and transcriptomic (for insert size) bam file on which to compute QC metrics"
     inputFastqs: "Array of pairs of fastq files together with RG information strings"
     outputFileNamePrefix: "Prefix for output files"
     strandSpecificity: "Indicates if we have strand-specific data, could be NONE or empty, default: NONE"
   }
 
 
-  if (!(defined(bamFile)) && defined(inputFastqs)) {
+  if (!(defined(inputBams)) && defined(inputFastqs)) {
     Array[Array[Pair[Pair[File, File], String]]?] inputs = [inputFastqs]
     Array[Pair[Pair[File, File], String]] inputFastqsNonOptional = select_first(inputs)	
     call star.star {
@@ -27,38 +32,55 @@ workflow rnaSeqQC {
       inputFqsRgs = inputFastqsNonOptional,
       outputFileNamePrefix = outputFileNamePrefix
     }
+    starBams workflowBams = { "genomicBam": star.starBam, "transcriptomicBam": star.transcriptomeBam}
   }
+  
+  starBams bamFiles=select_first([inputBams,workflowBams])
   
   call bamqc {
     input:
-    bamFile = select_first([bamFile, star.transcriptomeBam]),
+    bamFile = bamFiles.genomicBam,
     outputFileNamePrefix = outputFileNamePrefix
+  }
+  
+  call bamqc as bamqcTranscriptome {
+    input:
+	bamFile = bamFiles.transcriptomicBam,
+    outputFileNamePrefix = outputFileNamePrefix    
   }
 
   call bwaMem {
     input:
-    bamFile = select_first([bamFile, star.starBam]),
+    bamFile = bamFiles.genomicBam,
     outputFileNamePrefix = outputFileNamePrefix
   }
 
   call countUniqueReads {
     input:
-    bamFile = select_first([bamFile, star.starBam]),
+    bamFile = bamFiles.genomicBam,
     outputFileNamePrefix = outputFileNamePrefix
   }
     
   call picard {
     input:
-    bamFile = select_first([bamFile, star.starBam]),
+    bamFile = bamFiles.genomicBam,
     outputFileNamePrefix = outputFileNamePrefix,
     strandSpecificity = strandSpecificity
   }
+  
+  # Disabled; but maintaining should we want to use this approach to calculaitng insert size
+  #call picardInsertSize{
+  #  input:
+  #  bamFile = bamFiles.transcriptomicBam,
+  #  outputFileNamePrefix = outputFileNamePrefix
+  #}
 
   call collate {
     input:
     bamqc = bamqc.result,
     contam = bwaMem.result,
     picard = picard.result,
+    bamqcTranscriptome = bamqcTranscriptome.result,
     uniqueReads = countUniqueReads.result,
     outputFileNamePrefix = outputFileNamePrefix,
     strandSpecificity = strandSpecificity
@@ -69,8 +91,8 @@ workflow rnaSeqQC {
   }
 
   meta {
-     author: "Iain Bancarz and Rishi Shah"
-     email: "ibancarz@oicr.on.ca and rshah@oicr.on.ca"
+     author: "Iain Bancarz and Rishi Shah, with modifications by Peter Ruzanov, Lawrence Heisler"
+     email: "ibancarz@oicr.on.ca, pruzanov@oicr.on.ca, lheisler@oicr.on.ca"
      description: "QC metrics for RNASeq data"
      dependencies: [
      {
@@ -92,6 +114,10 @@ workflow rnaSeqQC {
      {
        name: "bam-qc-metrics/0.2.5",
        url: "https://github.com/oicr-gsi/bam-qc-metrics.git"
+     },
+     {
+      name: "jq/1.6",
+      url: "https://stedolan.github.io/jq/"
      }
      ]
   }
@@ -217,11 +243,12 @@ task collate {
     File bamqc
     File contam
     File picard
+    File bamqcTranscriptome
     File uniqueReads
     String outputFileNamePrefix
     String strandSpecificity
     String collatedSuffix = "collatedMetrics.json"
-    String modules = "production-tools-python/2"
+    String modules = "production-tools-python/2 jq/1.6"
     Int jobMemory = 16
     Int threads = 4
     Int timeout = 4
@@ -250,8 +277,12 @@ task collate {
     --contam ~{contam} \
     --picard ~{picard} \
     --unique-reads ~{uniqueReads} \
-    --out ~{resultName} \
+    --out "~{resultName}.temp" \
     ~{strandOption}
+
+    ### bring in the bamQC transcriptome metrics
+    jq '.bamqc_transcriptome += input' "~{resultName}.temp" ~{bamqcTranscriptome} > ~{resultName}
+    
   >>>
 
   runtime {
@@ -320,17 +351,14 @@ task countUniqueReads {
   }
 }
 
-task picard {
+task picardInsertSize {
 
   input {
     File bamFile
     String outputFileNamePrefix
-    String refFlat
-    String refFasta
     String modules
     Int picardMem=6000
-    String picardSuffix = "picardCollectRNASeqMetrics.txt"
-    String strandSpecificity="NONE"
+    String picardSuffix = "picardInsertSizeMetrics.txt"
     Int jobMemory = 64
     Int threads = 4
     Int timeout = 4
@@ -339,12 +367,9 @@ task picard {
   parameter_meta {
     bamFile: "Input BAM file of aligned rnaSeqQC data"
     outputFileNamePrefix: "Prefix for output file"
-    refFlat: "Path to Picard flatfile reference"
-    refFasta: "Path to human genome FASTA reference"
     modules: "Required environment modules"
     picardMem: "Memory to run picard JAR, in MB"
     picardSuffix: "Suffix for output file"
-    strandSpecificity: "String to denote strand specificity for Picard"
     jobMemory: "Memory allocated for this job"
     threads: "Requested CPU threads"
     timeout: "hours before task timeout"
@@ -352,22 +377,16 @@ task picard {
 
   String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
 
-    # Environment variables from modulefiles:
-    # $PICARD_ROOT <- picard
-    # $HG38_ROOT <- hg38
-    # $HG38_REFFLAT_ROOT <- hg38-refflat
-
-    # VALIDATION_STRINGENCY=SILENT prevents BAM parsing errors with the given REFERENCE_SEQUENCE
-
-    # check if HG19_ROOT or HG38_ROOT variable is set by environment module
   command <<<
+    set -euo pipefail
+
+    samtools sort ~{bamFile} > sorted.bam
+
     java -Xmx~{picardMem}M \
-    -jar $PICARD_ROOT/picard.jar CollectRnaSeqMetrics \
-    I=~{bamFile} \
+    -jar $PICARD_ROOT/picard.jar CollectInsertSizeMetrics \
+    I=sorted.bam \
     O=~{resultName} \
-    STRAND_SPECIFICITY=~{strandSpecificity} \
-    REF_FLAT=~{refFlat} \
-    REFERENCE_SEQUENCE=~{refFasta} \
+    H=~{resultName}_insert_size_histogram.pdf \
     VALIDATION_STRINGENCY=SILENT
   >>>
 
@@ -384,8 +403,81 @@ task picard {
 
   meta {
 	  output_meta: {
-      result: "Text file with Picard output"
+      result: "Text file with Picard InsertSize metrics output"
 	  }
   }
+  }
+  
+  
+  task picard {
+
+    input {
+      File bamFile
+      String outputFileNamePrefix
+      String refFlat
+      String refFasta
+      String modules
+      Int picardMem=6000
+      String picardSuffix = "picardCollectRNASeqMetrics.txt"
+      String strandSpecificity="NONE"
+      Int jobMemory = 64
+      Int threads = 4
+      Int timeout = 4
+    }
+
+    parameter_meta {
+      bamFile: "Input BAM file of aligned rnaSeqQC data"
+      outputFileNamePrefix: "Prefix for output file"
+      refFlat: "Path to Picard flatfile reference"
+      refFasta: "Path to human genome FASTA reference"
+      modules: "Required environment modules"
+      picardMem: "Memory to run picard JAR, in MB"
+      picardSuffix: "Suffix for output file"
+      strandSpecificity: "String to denote strand specificity for Picard"
+      jobMemory: "Memory allocated for this job"
+      threads: "Requested CPU threads"
+      timeout: "hours before task timeout"
+    }
+
+    String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
+
+      # Environment variables from modulefiles:
+      # $PICARD_ROOT <- picard
+      # $HG38_ROOT <- hg38
+      # $HG38_REFFLAT_ROOT <- hg38-refflat
+
+      # VALIDATION_STRINGENCY=SILENT prevents BAM parsing errors with the given REFERENCE_SEQUENCE
+
+      # check if HG19_ROOT or HG38_ROOT variable is set by environment module
+    command <<<
+      java -Xmx~{picardMem}M \
+      -jar $PICARD_ROOT/picard.jar CollectRnaSeqMetrics \
+      I=~{bamFile} \
+      O=~{resultName} \
+      STRAND_SPECIFICITY=~{strandSpecificity} \
+      REF_FLAT=~{refFlat} \
+      REFERENCE_SEQUENCE=~{refFasta} \
+      VALIDATION_STRINGENCY=SILENT
+    >>>
+
+    runtime {
+      modules: "~{modules}"
+      memory:  "~{jobMemory} GB"
+      cpu:     "~{threads}"
+      timeout: "~{timeout}"
+    }
+
+    output {
+  	  File result = "~{resultName}"
+    }
+
+    meta {
+  	  output_meta: {
+        result: "Text file with Picard output"
+  	  }
+    }
+  
+  
+  
 }
 
