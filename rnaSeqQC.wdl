@@ -243,7 +243,7 @@ task collate {
     File bamqc
     File contam
     File picard
-	File bamqcTranscriptome
+    File bamqcTranscriptome
     File uniqueReads
     String outputFileNamePrefix
     String strandSpecificity
@@ -378,7 +378,10 @@ task picardInsertSize {
   String resultName = "~{outputFileNamePrefix}.~{picardSuffix}"
 
   command <<<
+    set -euo pipefail
+
     samtools sort ~{bamFile} > sorted.bam
+
     java -Xmx~{picardMem}M \
     -jar $PICARD_ROOT/picard.jar CollectInsertSizeMetrics \
     I=sorted.bam \
