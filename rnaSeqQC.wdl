@@ -46,9 +46,9 @@ workflow rnaSeqQC {
       "runStar_modules": "star/2.6.0c hg19-star-index100/2.6.0c"
     },
     "hg38": {
-      "refFlat": "$HG38_REFFLAT_ROOT/refflat.txt",
-      "refFasta": "$HG38_ROOT/hg38_random.fa",
-      "modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
+      "picard_refFlat": "$HG38_REFFLAT_ROOT/refflat.txt",
+      "picard_refFasta": "$HG38_ROOT/hg38_random.fa",
+      "picard_modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
       "runBwaMem_bwaRef": "$HG38_BWA_INDEX_ROOT/hg38_random.fa",
       "runBwaMem_modules": "samtools/1.9 bwa/0.7.17 hg38/p12 rnaseqqc-ribosome-grch38-bwa-index/1.0.0",
       "runStar_genomeIndexDir": "$HG38_STAR_INDEX100_ROOT/",
