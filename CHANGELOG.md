@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v1.3.0: 2023-06-28
+------------------
+- moving assembly-specific settings inside the wdl
+
 v1.2.3: 2022-09-01
 ------------------ 
 - reverting back to genomic-aligned bam for bamQC
