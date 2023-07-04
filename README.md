@@ -11,6 +11,7 @@ QC metrics for RNASeq data
 * [production-tools-python 1.1.2](https://bitbucket.oicr.on.ca/projects/GSI/repos/production-tools-python/)
 * [bwa 0.7.17](https://github.com/lh3/bwa/releases/download/v0.7.17/bwa-0.7.17.tar.bz2)
 * [bam-qc-metrics 0.2.5](https://github.com/oicr-gsi/bam-qc-metrics.git)
+* [jq 1.6](https://stedolan.github.io/jq/)
 
 
 ## Usage
@@ -25,17 +26,13 @@ java -jar cromwell.jar run rnaSeqQC.wdl --inputs inputs.json
 #### Required workflow parameters:
 Parameter|Value|Description
 ---|---|---
-`bwaMem.refFasta`|String|Path to human genome FASTA reference
-`bwaMem.modules`|String|required environment modules
-`picard.refFlat`|String|Path to Picard flatfile reference
-`picard.refFasta`|String|Path to human genome FASTA reference
-`picard.modules`|String|Required environment modules
+`reference`|String|Reference assembly id
 
 
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
-`bamFile`|File?|None|Input BAM file on which to compute QC metrics
+`inputBams`|starBams?|None|Input genomic and transcriptomic (for insert size) bam file on which to compute QC metrics
 `inputFastqs`|Array[Pair[Pair[File,File],String]]?|None|Array of pairs of fastq files together with RG information strings
 `outputFileNamePrefix`|String|"rnaSeqQC"|Prefix for output files
 `strandSpecificity`|String|"NONE"|Indicates if we have strand-specific data, could be NONE or empty, default: NONE
@@ -65,18 +62,21 @@ Parameter|Value|Default|Description
 `star.runStar_multiMax`|Int|-1|multiMax parameter for STAR
 `star.runStar_saSparsed`|Int|2|saSparsed parameter for STAR
 `star.runStar_uniqMAPQ`|Int|255|Score for unique mappers
-`star.runStar_modules`|String|"star/2.7.3a hg38-star-index100/2.7.3a"|modules for running STAR
 `star.runStar_addParam`|String?|None|Additional STAR parameters
 `star.runStar_genereadSuffix`|String|"ReadsPerGene.out"|ReadsPerGene file suffix
 `star.runStar_chimericjunctionSuffix`|String|"Chimeric.out"|Suffix for chimeric junction file
 `star.runStar_transcriptomeSuffix`|String|"Aligned.toTranscriptome.out"|Suffix for transcriptome-aligned file
 `star.runStar_starSuffix`|String|"Aligned.sortedByCoord.out"|Suffix for sorted file
-`star.runStar_genomeIndexDir`|String|"$HG38_STAR_INDEX100_ROOT/"|Directory with STAR index files
 `bamqc.bamqcSuffix`|String|"bamqc.json"|Suffix for output file
 `bamqc.modules`|String|"bam-qc-metrics/0.2.5"|required environment modules
 `bamqc.jobMemory`|Int|16|Memory allocated for this job
 `bamqc.threads`|Int|4|Requested CPU thread
 `bamqc.timeout`|Int|4|hours before task timeout
+`bamqcTranscriptome.bamqcSuffix`|String|"bamqc.json"|Suffix for output file
+`bamqcTranscriptome.modules`|String|"bam-qc-metrics/0.2.5"|required environment modules
+`bamqcTranscriptome.jobMemory`|Int|16|Memory allocated for this job
+`bamqcTranscriptome.threads`|Int|4|Requested CPU thread
+`bamqcTranscriptome.timeout`|Int|4|hours before task timeout
 `bwaMem.contamSuffix`|String|"contaminationBwaFlagstat.txt"|Suffix for output file
 `bwaMem.threads`|Int|4|Requested CPU threads
 `bwaMem.jobMemory`|Int|16|Memory allocated for this job
@@ -92,7 +92,7 @@ Parameter|Value|Default|Description
 `picard.threads`|Int|4|Requested CPU threads
 `picard.timeout`|Int|4|hours before task timeout
 `collate.collatedSuffix`|String|"collatedMetrics.json"|Suffix for output file
-`collate.modules`|String|"production-tools-python/2"|required environment modules
+`collate.modules`|String|"production-tools-python/2 jq/1.6"|required environment modules
 `collate.jobMemory`|Int|16|Memory allocated for this job
 `collate.threads`|Int|4|Requested CPU threads
 `collate.timeout`|Int|4|hours before task timeout

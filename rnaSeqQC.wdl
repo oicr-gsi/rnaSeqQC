@@ -2,6 +2,16 @@ version 1.0
 
 import "imports/pull_star.wdl" as star
 
+struct refResources {
+  String picard_refFlat
+  String picard_refFasta
+  String picard_modules
+  String runBwaMem_bwaRef
+  String runBwaMem_modules
+  String runStar_genomeIndexDir
+  String runStar_modules
+}
+
 struct starBams{
   File genomicBam
   File transcriptomicBam
@@ -10,10 +20,11 @@ struct starBams{
 workflow rnaSeqQC {
 
   input {
- 	starBams? inputBams
+    starBams? inputBams
     Array[Pair[Pair[File, File], String]]? inputFastqs
     String outputFileNamePrefix = "rnaSeqQC"
     String strandSpecificity = "NONE"
+    String reference
   }
 
   parameter_meta {
@@ -21,8 +32,29 @@ workflow rnaSeqQC {
     inputFastqs: "Array of pairs of fastq files together with RG information strings"
     outputFileNamePrefix: "Prefix for output files"
     strandSpecificity: "Indicates if we have strand-specific data, could be NONE or empty, default: NONE"
+    reference: "Reference assembly id"
   }
 
+  Map [String,refResources] resources = {
+    "hg19": {
+      "picard_refFlat": "$HG19_REFFLAT_ROOT/refflat.txt",
+      "picard_refFasta": "$HG19_ROOT/hg19_random.fa",
+      "picard_modules": "picard/2.21.2 hg19-refflat/p13 hg19/p13",
+      "runBwaMem_bwaRef": "$HG19_BWA_INDEX_ROOT/hg19_random.fa",
+      "runBwaMem_modules": "samtools/1.9 bwa/0.7.17 hg19/p13 rnaseqqc-ribosome-grch38-bwa-index/1.0.0",
+      "runStar_genomeIndexDir": "$HG19_STAR_INDEX100_ROOT/",
+      "runStar_modules": "star/2.6.0c hg19-star-index100/2.6.0c"
+    },
+    "hg38": {
+      "picard_refFlat": "$HG38_REFFLAT_ROOT/refflat.txt",
+      "picard_refFasta": "$HG38_ROOT/hg38_random.fa",
+      "picard_modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
+      "runBwaMem_bwaRef": "$HG38_BWA_INDEX_ROOT/hg38_random.fa",
+      "runBwaMem_modules": "samtools/1.9 bwa/0.7.17 hg38/p12 rnaseqqc-ribosome-grch38-bwa-index/1.0.0",
+      "runStar_genomeIndexDir": "$HG38_STAR_INDEX100_ROOT/",
+      "runStar_modules": "star/2.7.3a hg38-star-index100/2.7.3a"
+    }
+  }
 
   if (!(defined(inputBams)) && defined(inputFastqs)) {
     Array[Array[Pair[Pair[File, File], String]]?] inputs = [inputFastqs]
@@ -30,7 +62,9 @@ workflow rnaSeqQC {
     call star.star {
       input:
       inputFqsRgs = inputFastqsNonOptional,
-      outputFileNamePrefix = outputFileNamePrefix
+      outputFileNamePrefix = outputFileNamePrefix,
+      runStar_genomeIndexDir = resources[reference].runStar_genomeIndexDir,
+      runStar_modules = resources[reference].runStar_modules
     }
     starBams workflowBams = { "genomicBam": star.starBam, "transcriptomicBam": star.transcriptomeBam}
   }
@@ -45,14 +79,16 @@ workflow rnaSeqQC {
   
   call bamqc as bamqcTranscriptome {
     input:
-	bamFile = bamFiles.transcriptomicBam,
+    bamFile = bamFiles.transcriptomicBam,
     outputFileNamePrefix = outputFileNamePrefix    
   }
 
   call bwaMem {
     input:
     bamFile = bamFiles.genomicBam,
-    outputFileNamePrefix = outputFileNamePrefix
+    outputFileNamePrefix = outputFileNamePrefix,
+    refFasta= resources[reference].runBwaMem_bwaRef,
+    modules = resources[reference].runBwaMem_modules
   }
 
   call countUniqueReads {
@@ -65,7 +101,10 @@ workflow rnaSeqQC {
     input:
     bamFile = bamFiles.genomicBam,
     outputFileNamePrefix = outputFileNamePrefix,
-    strandSpecificity = strandSpecificity
+    strandSpecificity = strandSpecificity,
+    refFlat = resources[reference].picard_refFlat,
+    refFasta = resources[reference].picard_refFasta,
+    modules = resources[reference].picard_modules
   }
   
   # Disabled; but maintaining should we want to use this approach to calculaitng insert size

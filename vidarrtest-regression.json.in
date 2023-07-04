@@ -1,6 +1,7 @@
 [
     {
         "arguments": {
+            "rnaSeqQC.reference": "hg38",
             "rnaSeqQC.inputBams": {
                 "genomicBam": {
                   "contents": {
@@ -39,8 +40,8 @@
             "rnaSeqQC.bamqcTranscriptome.timeout": null,
             "rnaSeqQC.bwaMem.contamSuffix": null,
             "rnaSeqQC.bwaMem.jobMemory": null,
-            "rnaSeqQC.bwaMem.modules": "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0 hg38/p12",
-            "rnaSeqQC.bwaMem.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
+            "rnaSeqQC.bwaMem.modules": null,
+            "rnaSeqQC.bwaMem.refFasta": null,
             "rnaSeqQC.bwaMem.threads": null,
             "rnaSeqQC.bwaMem.timeout": null,
             "rnaSeqQC.collate.collatedSuffix": null,
@@ -56,11 +57,11 @@
             "rnaSeqQC.inputFastqs": null,
             "rnaSeqQC.outputFileNamePrefix": null,
             "rnaSeqQC.picard.jobMemory": null,
-            "rnaSeqQC.picard.modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
+            "rnaSeqQC.picard.modules": null,
             "rnaSeqQC.picard.picardMem": null,
             "rnaSeqQC.picard.picardSuffix": null,
-            "rnaSeqQC.picard.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
-            "rnaSeqQC.picard.refFlat": "/.mounts/labs/gsi/modulator/sw/data/hg38-refflat-p12/refflat.txt",
+            "rnaSeqQC.picard.refFasta": null,
+            "rnaSeqQC.picard.refFlat": null,
             "rnaSeqQC.picard.threads": null,
             "rnaSeqQC.picard.timeout": null,
             "rnaSeqQC.star.indexBam_jobMemory": null,
@@ -126,6 +127,7 @@
     },
     {
         "arguments": {
+            "rnaSeqQC.reference": "hg38",
             "rnaSeqQC.inputBams": {
                 "genomicBam": {
                   "contents": {
@@ -164,8 +166,8 @@
             "rnaSeqQC.bamqcTranscriptome.timeout": null,
             "rnaSeqQC.bwaMem.contamSuffix": null,
             "rnaSeqQC.bwaMem.jobMemory": null,
-            "rnaSeqQC.bwaMem.modules": "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0 hg38/p12",
-            "rnaSeqQC.bwaMem.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
+            "rnaSeqQC.bwaMem.modules": null, 
+            "rnaSeqQC.bwaMem.refFasta": null,
             "rnaSeqQC.bwaMem.threads": null,
             "rnaSeqQC.bwaMem.timeout": null,
             "rnaSeqQC.collate.collatedSuffix": null,
@@ -181,11 +183,11 @@
             "rnaSeqQC.inputFastqs": null,
             "rnaSeqQC.outputFileNamePrefix": null,
             "rnaSeqQC.picard.jobMemory": null,
-            "rnaSeqQC.picard.modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
+            "rnaSeqQC.picard.modules": null,
             "rnaSeqQC.picard.picardMem": null,
             "rnaSeqQC.picard.picardSuffix": null,
-            "rnaSeqQC.picard.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
-            "rnaSeqQC.picard.refFlat": "/.mounts/labs/gsi/modulator/sw/data/hg38-refflat-p12/refflat.txt",
+            "rnaSeqQC.picard.refFasta": null,
+            "rnaSeqQC.picard.refFlat": null,
             "rnaSeqQC.picard.threads": null,
             "rnaSeqQC.picard.timeout": null,
             "rnaSeqQC.star.indexBam_jobMemory": null,
@@ -251,6 +253,7 @@
     },
     {
         "arguments": {
+            "rnaSeqQC.reference": "hg38",
             "rnaSeqQC.inputBams": null,
             "rnaSeqQC.bamqc.bamqcSuffix": null,
             "rnaSeqQC.bamqc.jobMemory": null,
@@ -264,8 +267,8 @@
             "rnaSeqQC.bamqcTranscriptome.timeout": null,
             "rnaSeqQC.bwaMem.contamSuffix": null,
             "rnaSeqQC.bwaMem.jobMemory": null,
-            "rnaSeqQC.bwaMem.modules": "samtools/1.9 bwa/0.7.17 rnaseqqc-ribosome-grch38-bwa-index/1.0.0 hg38/p12",
-            "rnaSeqQC.bwaMem.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
+            "rnaSeqQC.bwaMem.modules": null,
+            "rnaSeqQC.bwaMem.refFasta": null,
             "rnaSeqQC.bwaMem.threads": null,
             "rnaSeqQC.bwaMem.timeout": null,
             "rnaSeqQC.collate.collatedSuffix": null,
@@ -340,11 +343,11 @@
             ],
             "rnaSeqQC.outputFileNamePrefix": null,
             "rnaSeqQC.picard.jobMemory": null,
-            "rnaSeqQC.picard.modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
+            "rnaSeqQC.picard.modules": null,
             "rnaSeqQC.picard.picardMem": null,
             "rnaSeqQC.picard.picardSuffix": null,
-            "rnaSeqQC.picard.refFasta": "/.mounts/labs/gsi/modulator/sw/data/hg38-p12/hg38_random.fa",
-            "rnaSeqQC.picard.refFlat": "/.mounts/labs/gsi/modulator/sw/data/hg38-refflat-p12/refflat.txt",
+            "rnaSeqQC.picard.refFasta": null,
+            "rnaSeqQC.picard.refFlat": null,
             "rnaSeqQC.picard.threads": null,
             "rnaSeqQC.picard.timeout": null,
             "rnaSeqQC.star.indexBam_jobMemory": null,
