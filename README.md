@@ -100,27 +100,27 @@ Parameter|Value|Default|Description
 
 ### Outputs
 
-Output | Type | Description
----|---|---
-`result`|File|JSON file of collated rnaSeqQC output
+Output | Type | Description | Labels
+---|---|---|---
+`result`|File|JSON file of collated rnaSeqQC output|
 
 
 ## Commands
- This section lists command(s) run by rnaSeqQC workflow
+This section lists command(s) run by rnaSeqQC workflow
  
- * Running rnaSeqQC
+* Running rnaSeqQC
  
- Run QC analysis on RNAseq data
+### Run QC analysis on RNAseq data
  
- ```
+```
      write_fast_metrics.py
      -b INPUT_BAM 
      -o RESULTS_NAME
  
- ```
- Alternative to sorting, collate used here to realign with bwa mem and run samtools flagstat:
+```
+### Alternative to sorting, collate used here to realign with bwa mem and run samtools flagstat:
  
- ```
+```
      samtools collate 
      -O 
      --reference REFERENCE_FASTA
@@ -132,11 +132,11 @@ Output | Type | Description
      | 
      samtools flagstat - > RESULTS_NAME
  
- ```
+```
  
- Collate Results:
+### Collate Results:
  
- ```
+```
      COLLATION_SCRIPT
      --bamqc BAM_QC_RESULTS
      --contam CONTAMINATION_RESULTS
@@ -144,18 +144,18 @@ Output | Type | Description
      --unique-reads UNIQUE_READS
      --out RESULT_NAME
      STRANDEDNESS_OPTION
- ```
+```
  
- Count the number of primary alignments:
+### Count the number of primary alignments:
  
- ```
+```
      samtools view -F 256 INPUT_BAM | wc -l > RESULT_FILE
  
- ```
+```
  
- Collect RNASEQ metrics with picard:
+### Collect RNASEQ metrics with picard:
  
- ```
+```
      java -Xmx~[PICARD_MEMORY]M 
      -jar picard.jar CollectRnaSeqMetrics 
      I=INPUT_BAM 
@@ -165,8 +165,9 @@ Output | Type | Description
      REFERENCE_SEQUENCE=REF_FASTA 
      VALIDATION_STRINGENCY=SILENT
  
- ```
- ## Support
+```
+
+## Support
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
 

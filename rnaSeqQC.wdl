@@ -205,9 +205,12 @@ task bamqc {
   }
 
   meta {
-	  output_meta: {
-      result: "JSON file containing the BAMQC metrics"
-  	}
+    output_meta: {
+    result: {
+        description: "JSON file containing the BAMQC metrics",
+        vidarr_label: "result"
+    }
+}
   }
 }
 
