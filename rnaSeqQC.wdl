@@ -132,7 +132,7 @@ workflow rnaSeqQC {
   meta {
      author: "Iain Bancarz and Rishi Shah, with modifications by Peter Ruzanov, Lawrence Heisler"
      email: "ibancarz@oicr.on.ca, pruzanov@oicr.on.ca, lheisler@oicr.on.ca"
-     description: "QC metrics for RNASeq data"
+     description: "Imports and calls STAR aligner workflow. rnaSeqQC produces metrics for WT and other RNA sequencing data using bamQC module."
      dependencies: [
      {
        name: "samtools/1.9",
