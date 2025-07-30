@@ -5,7 +5,7 @@
             "rnaSeqQC.inputBams": {
                 "genomicBam": {
                   "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.tiny.bam",
+                    "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/test_inputs/SWID.Aligned.sortedByCoord.out.tiny.bam",
                     "externalIds": [
                      {
                         "id": "TEST",
@@ -17,7 +17,7 @@
                 },
                 "transcriptomicBam": {
                    "contents": {
-                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.toTranscriptome.out.tiny.bam",
+                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/test_inputs/SWID.Aligned.toTranscriptome.out.tiny.bam",
                      "externalIds": [
                       {
                          "id": "TEST",
@@ -120,7 +120,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/2.3/rnaSeqQC_test_small.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/workflow_test_01.metrics",
                 "type": "script"
             }
         ]
@@ -131,7 +131,7 @@
             "rnaSeqQC.inputBams": {
                 "genomicBam": {
                   "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.sortedByCoord.out.bam",
+                    "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/test_inputs/SWID.Aligned.sortedByCoord.out.bam",
                     "externalIds": [
                      {
                         "id": "TEST",
@@ -143,7 +143,7 @@
                 },
                 "transcriptomicBam": {
                    "contents": {
-                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/input_data/SWID_15613141_OCT_011493_Lv_P_PE_265_WT_191213_M00146_0140_000000000-D7W78_CGCTCATT-CCTATCCT_L001.Aligned.toTranscriptome.out.bam",
+                     "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/test_inputs/SWID.Aligned.toTranscriptome.out.bam",
                      "externalIds": [
                       {
                          "id": "TEST",
@@ -246,7 +246,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/2.3/rnaSeqQC_test_medium.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/workflow_test_02.metrics",
                 "type": "script"
             }
         ]
@@ -286,7 +286,7 @@
                     "left": {
                         "left": {
                             "contents": {
-                                "configuration": "/.mounts/labs/gsi/testdata/STAR/input_data/k562_NoIndex_L001_R1_001.fastq.gz",
+                                "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/test_inputs/k_R1.fastq.gz",
                                 "externalIds": [
                                     {
                                         "id": "TEST",
@@ -298,7 +298,7 @@
                         },
                         "right": {
                             "contents": {
-                                "configuration": "/.mounts/labs/gsi/testdata/STAR/input_data/k562_NoIndex_L001_R2_001.fastq.gz",
+                                "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/test_inputs/k_R2.fastq.gz",
                                 "externalIds": [
                                     {
                                         "id": "TEST",
@@ -309,13 +309,13 @@
                             "type": "EXTERNAL"
                         }
                     },
-                    "right": "ID:121005_h804_0096_AD0V4NACXX_4_NoIndex PL:Illumina PU:121005_h804_0096_AD0V4NACXX_4_NoIndex LB:K562_1 SM:K562_1test CM:OICR"
+                    "right": "ID:k_4_NoIndex PL:Illumina PU:k_4_NoIndex LB:K_1 SM:K_1test CM:OICR"
                 },
                 {
                     "left": {
                         "left": {
                             "contents": {
-                                "configuration": "/.mounts/labs/gsi/testdata/STAR/input_data/k562_NoIndex_L001_R1_001.fastq.gz",
+                                "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/test_inputs/k_R1.fastq.gz",
                                 "externalIds": [
                                     {
                                         "id": "TEST",
@@ -327,7 +327,7 @@
                         },
                         "right": {
                             "contents": {
-                                "configuration": "/.mounts/labs/gsi/testdata/STAR/input_data/k562_NoIndex_L001_R2_001.fastq.gz",
+                                "configuration": "/.mounts/labs/gsi/testdata/rnaSeqQC/test_inputs/k_R2.fastq.gz",
                                 "externalIds": [
                                     {
                                         "id": "TEST",
@@ -338,7 +338,7 @@
                             "type": "EXTERNAL"
                         }
                     },
-                    "right": "ID:121005_h804_0096_AD0V4NACXX_5_NoIndex PL:Illumina PU:121005_h804_0096_AD0V4NACXX_5_NoIndex LB:K562_2 SM:K562_2test CM:OICR"
+                    "right": "ID:k_5_NoIndex PL:Illumina PU:k_5_NoIndex LB:K_2 SM:K_2test CM:OICR"
                 }
             ],
             "rnaSeqQC.outputFileNamePrefix": null,
@@ -406,7 +406,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/2.3/rnaSeqQC_test_star.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/rnaSeqQC/output_metrics/workflow_test_03.metrics",
                 "type": "script"
             }
         ]
