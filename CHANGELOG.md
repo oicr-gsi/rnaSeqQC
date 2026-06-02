@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2026-06-01
+### Added
+- [GRD-1175](https://jira.oicr.on.ca/browse/GRD-1175) - Add hg38_noAlt support
+
 ## [Unreleased] - 2025-04-23
 - [GRD-795](https://jira.oicr.on.ca/browse/GRD-795) - Expanded built-in documentation (metadata changes only).
 
