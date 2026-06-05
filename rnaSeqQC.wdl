@@ -41,7 +41,7 @@ workflow rnaSeqQC {
       "picard_refFasta": "$HG19_ROOT/hg19_random.fa",
       "picard_modules": "picard/2.21.2 hg19-refflat/p13 hg19/p13",
       "runBwaMem_bwaRef": "$HG19_BWA_INDEX_ROOT/hg19_random.fa",
-      "runBwaMem_modules": "samtools/1.9 bwa/0.7.17 hg19/p13 rnaseqqc-ribosome-grch38-bwa-index/1.0.0",
+      "runBwaMem_modules": "samtools/1.9 bwa/0.7.17 hg19-bwa-index/0.7.17 hg19/p13 rnaseqqc-ribosome-grch38-bwa-index/1.0.0",
       "runStar_genomeIndexDir": "$HG19_STAR_INDEX100_ROOT/",
       "runStar_modules": "star/2.6.0c hg19-star-index100/2.6.0c"
     },
@@ -50,9 +50,18 @@ workflow rnaSeqQC {
       "picard_refFasta": "$HG38_ROOT/hg38_random.fa",
       "picard_modules": "picard/2.21.2 hg38-refflat/p12 hg38/p12",
       "runBwaMem_bwaRef": "$HG38_BWA_INDEX_ROOT/hg38_random.fa",
-      "runBwaMem_modules": "samtools/1.9 bwa/0.7.17 hg38/p12 rnaseqqc-ribosome-grch38-bwa-index/1.0.0",
+      "runBwaMem_modules": "samtools/1.9 bwa/0.7.17 hg38-bwa-index/0.7.17 hg38/p12 rnaseqqc-ribosome-grch38-bwa-index/1.0.0",
       "runStar_genomeIndexDir": "$HG38_STAR_INDEX100_ROOT/",
       "runStar_modules": "star/2.7.3a hg38-star-index100/2.7.3a"
+    },
+    "hg38_noAlt": {
+      "picard_refFlat": "$HG38_NOALT_REFFLAT_ROOT/refflat.txt",
+      "picard_refFasta": "$HG38_NOALT_ROOT/hg38_noAlt.fa",
+      "picard_modules": "picard/2.21.2 hg38-noalt-refflat/p12 hg38-noalt/p12",
+      "runBwaMem_bwaRef": "$HG38_BWA_INDEX_NOALT_ROOT/hg38_noAlt.fa",
+      "runBwaMem_modules": "samtools/1.9 bwa/0.7.17 hg38-bwa-index-noalt/0.7.17 hg38-noalt/p12 rnaseqqc-ribosome-grch38-bwa-index/1.0.0",
+      "runStar_genomeIndexDir": "$HG38_NOALT_STAR_INDEX100_ROOT/",
+      "runStar_modules": "star/2.7.10b hg38-noalt-star-index100/2.7.10b-gencode44"
     }
   }
 
