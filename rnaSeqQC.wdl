@@ -299,7 +299,7 @@ task collate {
     String outputFileNamePrefix
     String strandSpecificity
     String collatedSuffix = "collatedMetrics.json"
-    String modules = "production-tools-python/2 jq/1.6"
+    String modules = "rnaseqqc-scripts/0.1 jq/1.6"
     Int jobMemory = 16
     Int threads = 4
     Int timeout = 4
@@ -319,7 +319,7 @@ task collate {
   }
 
   String resultName = "~{outputFileNamePrefix}.~{collatedSuffix}"
-  String collationScript = "rnaseqqc-collate"
+  String collationScript = "$RNASEQQC_SCRIPTS_ROOT/rnaseqqc_collate.py"
   String strandOption = if strandSpecificity=="NONE" then "--no-strand-specificity " else ""
 
   command <<<
