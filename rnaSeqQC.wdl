@@ -319,7 +319,7 @@ task collate {
   }
 
   String resultName = "~{outputFileNamePrefix}.~{collatedSuffix}"
-  String collationScript = "$RNASEQQC_SCRIPTS_ROOT/rnaseqqc_collate.py"
+  String collationScript = "rnaseqqc_collate.py"
   String strandOption = if strandSpecificity=="NONE" then "--no-strand-specificity " else ""
 
   command <<<
