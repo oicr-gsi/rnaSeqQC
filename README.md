@@ -8,7 +8,7 @@ QC metrics for RNASeq data
 
 * [samtools 1.9](https://github.com/samtools/samtools)
 * [picard 2.21.2](https://broadinstitute.github.io/picard/command-line-overview.html)
-* [production-tools-python 1.1.2](https://bitbucket.oicr.on.ca/projects/GSI/repos/production-tools-python/)
+* [rnaseqqc-scripts/0.1](https://github.com/oicr-gsi/rnaSeqQC)
 * [bwa 0.7.17](https://github.com/lh3/bwa/releases/download/v0.7.17/bwa-0.7.17.tar.bz2)
 * [bam-qc-metrics 0.2.5](https://github.com/oicr-gsi/bam-qc-metrics.git)
 * [jq 1.6](https://stedolan.github.io/jq/)
@@ -92,7 +92,7 @@ Parameter|Value|Default|Description
 `picard.threads`|Int|4|Requested CPU threads
 `picard.timeout`|Int|4|hours before task timeout
 `collate.collatedSuffix`|String|"collatedMetrics.json"|Suffix for output file
-`collate.modules`|String|"production-tools-python/2 jq/1.6"|required environment modules
+`collate.modules`|String|"rnaseqqc-scripts/0.1 jq/1.6"|required environment modules
 `collate.jobMemory`|Int|16|Memory allocated for this job
 `collate.threads`|Int|4|Requested CPU threads
 `collate.timeout`|Int|4|hours before task timeout
